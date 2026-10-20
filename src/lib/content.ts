@@ -7,13 +7,17 @@ import { concepts } from "@/content/concepts";
 import { experiments } from "@/content/experiments";
 import { splitGuide } from "@/content/guides/split-without-leakage";
 import { plans, pricingFaq } from "@/content/pricing";
-import { phases, preprocessingByDataType, steps } from "@/content/project-lab";
+import { phases, steps } from "@/content/project-lab";
+import { lessons } from "@/content/lessons";
 import { paths } from "@/content/paths";
 import {
+  claimTypes,
   honestReporting,
   paperSections,
+  reproducibilityChecklist,
   researchStages,
   sampleOutline,
+  writingExamples,
   writingRoadmap,
 } from "@/content/research";
 
@@ -25,6 +29,28 @@ export async function getPaths() {
 export async function getPath(slug: string) {
   "use cache";
   return paths.find((p) => p.slug === slug) ?? null;
+}
+
+/** A topic with its path, neighbours and lesson (null while the lesson is planned). */
+export async function getTopic(pathSlug: string, topicSlug: string) {
+  "use cache";
+  const path = paths.find((p) => p.slug === pathSlug);
+  const index = path ? path.topics.findIndex((t) => t.slug === topicSlug) : -1;
+  if (!path || index === -1) return null;
+  const topic = path.topics[index];
+  return {
+    path,
+    topic,
+    index,
+    prev: path.topics[index - 1] ?? null,
+    next: path.topics[index + 1] ?? null,
+    lesson: topic.lessonId ? (lessons[topic.lessonId] ?? null) : null,
+  };
+}
+
+export async function getTopicParams() {
+  "use cache";
+  return paths.flatMap((p) => p.topics.map((t) => ({ slug: p.slug, topic: t.slug })));
 }
 
 export async function getConcepts() {
@@ -39,21 +65,32 @@ export async function getExperiments() {
 
 export async function getWorkflow() {
   "use cache";
-  return { phases, steps, preprocessingByDataType };
+  return { phases, steps };
 }
 
-export async function getStepGuide(slug: string) {
+/** A workflow step with its neighbours and, for step 6, the long-form guide. */
+export async function getStep(slug: string) {
   "use cache";
-  const step = steps.find((s) => s.slug === slug && s.hasGuide);
-  if (!step) return null;
-  // Only one guide exists in Phase 1; future guides register here.
-  const guide = slug === splitGuide.stepSlug ? splitGuide : null;
-  return guide ? { step, guide } : null;
+  const index = steps.findIndex((s) => s.slug === slug);
+  if (index === -1) return null;
+  const step = steps[index];
+  // Long-form guides register here as they are written.
+  const guide = step.hasGuide && slug === splitGuide.stepSlug ? splitGuide : null;
+  return { step, guide, prev: steps[index - 1] ?? null, next: steps[index + 1] ?? null, total: steps.length };
 }
 
 export async function getResearch() {
   "use cache";
-  return { researchStages, writingRoadmap, honestReporting, sampleOutline, paperSections };
+  return {
+    researchStages,
+    writingRoadmap,
+    honestReporting,
+    sampleOutline,
+    paperSections,
+    claimTypes,
+    writingExamples,
+    reproducibilityChecklist,
+  };
 }
 
 export async function getPricing() {

@@ -16,9 +16,9 @@ const approach = [
   {
     Icon: Eye,
     title: "See it",
-    body: "Diagrams you step through, showing what a model does with each number.",
-    href: "/learn",
-    link: "Learning paths",
+    body: "Lessons that show what a model does with each number, at a beginner or technical level.",
+    href: "/learn/ml-foundations/learning-from-data",
+    link: "Start the first lesson",
   },
   {
     Icon: FlaskConical,
@@ -52,12 +52,13 @@ export default async function HomePage() {
       <section aria-labelledby="hero-heading" className="border-b border-line pb-16 pt-12 sm:pb-20 sm:pt-16">
         <Container className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14">
           <div>
-            <h1 id="hero-heading" className="max-w-[15ch] text-display font-extrabold">
+            <h1 id="hero-heading" className="max-w-[16ch] text-display">
               {site.tagline}
             </h1>
-            <p className="mt-6 max-w-prose text-lg text-chalk-muted sm:text-xl">
-              Learn machine learning, deep learning and language models through diagrams you step through, experiments
-              you change, and projects you take from a research question to a written paper.
+            <p className="mt-6 text-xl text-fg sm:text-2xl">Learn the theory. Explore the process. Build something real.</p>
+            <p className="mt-4 max-w-prose text-lg text-fg-muted">
+              Lessons with experiments that compute in your browser, a complete project workflow, and a guide to writing
+              research that reports exactly what you did.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/learn">Start learning</ButtonLink>
@@ -76,11 +77,11 @@ export default async function HomePage() {
             {approach.map(({ Icon, title, body, href, link }) => (
               <li key={title} className="py-8 md:px-8 md:first:pl-0 md:last:pr-0">
                 <p className="flex items-center gap-3 text-xl font-bold">
-                  <Icon aria-hidden className="size-5 text-accent" />
+                  <Icon aria-hidden className="size-5 text-link" />
                   {title}
                 </p>
-                <p className="mt-2 text-chalk-muted">{body}</p>
-                <Link href={href} className="mt-3 inline-block text-sm font-bold underline decoration-line-strong underline-offset-4 hover:decoration-accent">
+                <p className="mt-2 text-fg-muted">{body}</p>
+                <Link href={href} className="mt-3 inline-block text-sm font-bold underline decoration-line-strong underline-offset-4 hover:decoration-link">
                   {link}
                 </Link>
               </li>
@@ -92,27 +93,17 @@ export default async function HomePage() {
       {/* B. Learning paths */}
       <Section
         id="paths"
-        title="Seven paths, and the order to take them in"
-        intro="Each path says where it takes you and what you need before starting. Syllabi are published; lessons are being written."
+        title="Eight paths, and the order to take them in"
+        intro="Each path says where it takes you and what you need first. Start with Path A or B; the map shows what each one unlocks."
         action={<ButtonLink href="/learn" variant="secondary">Browse all paths</ButtonLink>}
       >
-        <div className="mb-10 hidden rounded-panel border border-line bg-board-deep p-6 md:block">
+        <div className="mb-10 hidden rounded-panel border border-line bg-sunken p-6 md:block">
           <PathMap paths={paths} />
         </div>
         <div className="grid gap-x-12 md:grid-cols-2">
           {paths.map((path) => (
-            <PathRow key={path.slug} path={path} titles={pathTitles} compact />
+            <PathRow key={path.slug} path={path} titles={pathTitles} />
           ))}
-          <div className="border-t border-line py-7">
-            <h3 className="text-xl">Not sure where to start?</h3>
-            <p className="mt-2 text-chalk-muted">
-              Begin with Machine Learning Foundations. It is the only path with no prerequisite path, and every other
-              path builds on it. If you already train models in PyTorch, go straight to the path you need.
-            </p>
-            <Link href="/learn/ml-foundations" className="mt-3 inline-block font-bold underline decoration-accent underline-offset-4">
-              Machine Learning Foundations
-            </Link>
-          </div>
         </div>
       </Section>
 
@@ -135,7 +126,7 @@ export default async function HomePage() {
         action={<ButtonLink href="/project-lab" variant="secondary">Open the Project Lab</ButtonLink>}
       >
         <WorkflowSummary phases={workflow.phases} steps={workflow.steps} />
-        <p className="mt-5 text-sm text-chalk-muted">
+        <p className="mt-5 text-sm text-fg-muted">
           The underlined step has a complete guide with code and a checklist. The others are outlined.
         </p>
       </Section>
@@ -157,32 +148,32 @@ export default async function HomePage() {
                 ["A paper that matches the evidence", "Every number traces to a run, every citation to a source you have read."],
               ].map(([title, body], i) => (
                 <li key={title} className="flex gap-4">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full border border-line-strong text-sm font-bold text-chalk-muted">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full border border-line-strong text-sm font-bold text-fg-muted">
                     {i + 1}
                   </span>
                   <div>
                     <h3 className="text-xl">{title}</h3>
-                    <p className="mt-1 text-chalk-muted">{body}</p>
+                    <p className="mt-1 text-fg-muted">{body}</p>
                   </div>
                 </li>
               ))}
             </ol>
-            <p className="mt-8 max-w-prose border-l-2 border-accent pl-4 text-chalk">
+            <p className="mt-8 max-w-prose border-l-2 border-primary pl-4 text-fg">
               Never invent citations, results, datasets or contributions. A paper must describe experiments that were
               actually run.
             </p>
           </div>
-          <div className="rounded-panel border border-line bg-board-deep p-6 sm:p-8">
+          <div className="rounded-panel border border-line bg-sunken p-6 sm:p-8">
             <p className="font-bold">A typical ML paper, in reading order</p>
             <ol className="mt-4 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
               {research.paperSections.map((s, i) => (
                 <li key={s.id} className="flex gap-3 border-b border-line py-2.5">
-                  <span className="w-5 text-right text-sm tabular-nums text-chalk-faint">{i + 1}</span>
+                  <span className="w-5 text-right text-sm tabular-nums text-fg-faint">{i + 1}</span>
                   <span>{s.title}</span>
                 </li>
               ))}
             </ol>
-            <p className="mt-4 text-sm text-chalk-muted">Structure varies by venue and field; always follow the venue’s template.</p>
+            <p className="mt-4 text-sm text-fg-muted">Structure varies by venue and field; always follow the venue’s template.</p>
           </div>
         </div>
       </Section>
@@ -201,7 +192,7 @@ export default async function HomePage() {
               key={plan.id}
               className={
                 plan.id === "free"
-                  ? "rounded-panel border-2 border-accent p-6 sm:p-8"
+                  ? "rounded-panel border-2 border-primary p-6 sm:p-8"
                   : "rounded-panel border border-dashed border-line-strong p-6 sm:p-8"
               }
             >
@@ -209,14 +200,14 @@ export default async function HomePage() {
                 <h3 className="text-2xl">{plan.name}</h3>
                 <StatusTag kind={plan.id} label={plan.status} />
               </div>
-              <p className="mt-3 text-chalk-muted">{plan.summary}</p>
+              <p className="mt-3 text-fg-muted">{plan.summary}</p>
               <ul className="mt-5 space-y-2.5">
                 {plan.features.map((f) => (
                   <li key={f.label} className="flex gap-3">
                     {plan.id === "free" ? (
-                      <Check aria-hidden className="mt-1 size-4 shrink-0 text-accent" />
+                      <Check aria-hidden className="mt-1 size-4 shrink-0 text-link" />
                     ) : (
-                      <Minus aria-hidden className="mt-1 size-4 shrink-0 text-chalk-faint" />
+                      <Minus aria-hidden className="mt-1 size-4 shrink-0 text-fg-faint" />
                     )}
                     <span>{f.label}</span>
                   </li>

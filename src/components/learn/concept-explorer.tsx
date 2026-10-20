@@ -19,7 +19,7 @@ export function ConceptExplorer({ concepts, pathTitles }: Props) {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   if (concepts.length === 0) {
-    return <p className="text-chalk-muted">No concepts are published yet.</p>;
+    return <p className="text-fg-muted">No concepts are published yet.</p>;
   }
 
   const concept = concepts[active];
@@ -73,11 +73,11 @@ export function ConceptExplorer({ concepts, pathTitles }: Props) {
               className={cx(
                 "flex shrink-0 items-baseline gap-3 rounded-control border px-4 py-3 text-left transition-colors duration-150",
                 selected
-                  ? "border-accent bg-board-raised text-chalk"
-                  : "border-line text-chalk-muted hover:border-line-strong hover:text-chalk",
+                  ? "border-primary bg-surface text-fg"
+                  : "border-line text-fg-muted hover:border-line-strong hover:text-fg",
               )}
             >
-              <span className={cx("text-sm tabular-nums", selected ? "text-accent" : "text-chalk-faint")}>{i + 1}</span>
+              <span className={cx("text-sm tabular-nums", selected ? "text-link" : "text-fg-faint")}>{i + 1}</span>
               <span className="font-bold">{c.title}</span>
             </button>
           );
@@ -88,13 +88,13 @@ export function ConceptExplorer({ concepts, pathTitles }: Props) {
         role="tabpanel"
         id={`concept-panel-${concept.id}`}
         aria-labelledby={`concept-tab-${concept.id}`}
-        className="min-w-0 rounded-panel border border-line bg-board-raised p-4 sm:p-7"
+        className="min-w-0 rounded-panel border border-line bg-surface p-4 sm:p-7"
       >
-        <figure className="rounded-control border border-line bg-board-deep p-3 sm:p-5">
+        <figure className="rounded-control border border-line bg-sunken p-3 sm:p-5">
           <div className="diagram-scroll" tabIndex={0} role="region" aria-label={`Diagram: ${concept.title}`}>
             <Diagram />
           </div>
-          <figcaption className="mt-3 flex gap-2 text-sm text-chalk-faint">
+          <figcaption className="mt-3 flex gap-2 text-sm text-fg-faint">
             <Info aria-hidden className="mt-0.5 size-4 shrink-0" />
             <span>Illustration, not a running model. {concept.caveat}</span>
           </figcaption>
@@ -103,13 +103,13 @@ export function ConceptExplorer({ concepts, pathTitles }: Props) {
           <h3 className="text-2xl leading-snug">{concept.question}</h3>
           <div>
           {concept.explanation.map((paragraph, i) => (
-            <p key={paragraph.slice(0, 24)} className={i === 0 ? "text-chalk-muted xl:mt-1" : "mt-4 text-chalk-muted"}>
+            <p key={paragraph.slice(0, 24)} className={i === 0 ? "text-fg-muted xl:mt-1" : "mt-4 text-fg-muted"}>
               {paragraph}
             </p>
           ))}
-          <p className="mt-5 text-sm text-chalk-muted">
+          <p className="mt-5 text-sm text-fg-muted">
             Covered in{" "}
-            <Link href={`/learn/${concept.pathSlug}`} className="font-bold text-chalk underline decoration-line-strong underline-offset-4 hover:decoration-accent">
+            <Link href={`/learn/${concept.pathSlug}`} className="font-bold text-fg underline decoration-line-strong underline-offset-4 hover:decoration-link">
               {pathTitles[concept.pathSlug] ?? "its learning path"}
             </Link>
           </p>

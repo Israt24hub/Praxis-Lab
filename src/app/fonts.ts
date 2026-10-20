@@ -1,28 +1,49 @@
 import localFont from "next/font/local";
 
 /*
- * Atkinson Hyperlegible Next (Braille Institute) — chosen for legibility,
- * self-hosted from Fontsource so the site makes no runtime requests to Google.
+ * Typefaces from the Praxis Lab design board, self-hosted from Fontsource so
+ * the site makes no runtime requests to Google:
+ * - Playfair Display: headings and titles
+ * - Inter: body text and interface
+ * - Atkinson Hyperlegible Mono: code
  */
-export const atkinson = localFont({
+export const display = localFont({
   src: [
     {
-      path: "../../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2",
-      weight: "200 800",
+      path: "../../node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-normal.woff2",
+      weight: "400 900",
       style: "normal",
     },
     {
-      path: "../../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-italic.woff2",
-      weight: "200 800",
+      path: "../../node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-italic.woff2",
+      weight: "400 900",
       style: "italic",
     },
   ],
-  variable: "--font-atkinson",
+  variable: "--font-display-src",
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
+});
+
+export const sans = localFont({
+  src: [
+    {
+      path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-italic.woff2",
+      weight: "100 900",
+      style: "italic",
+    },
+  ],
+  variable: "--font-sans-src",
   display: "swap",
   fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
-export const atkinsonMono = localFont({
+export const mono = localFont({
   src: [
     {
       path: "../../node_modules/@fontsource-variable/atkinson-hyperlegible-mono/files/atkinson-hyperlegible-mono-latin-wght-normal.woff2",
@@ -30,7 +51,7 @@ export const atkinsonMono = localFont({
       style: "normal",
     },
   ],
-  variable: "--font-atkinson-mono",
+  variable: "--font-mono-src",
   display: "swap",
   preload: false,
   fallback: ["ui-monospace", "monospace"],

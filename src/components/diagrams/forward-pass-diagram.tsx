@@ -51,7 +51,7 @@ function Edge({ x1, y1, x2, y2, state }: { x1: number; y1: number; x2: number; y
       x2={x2}
       y2={y2}
       className="transition-[stroke,opacity] duration-200"
-      stroke={state === "idle" ? "var(--color-line-strong)" : "var(--color-accent)"}
+      stroke={state === "idle" ? "var(--color-line-strong)" : "var(--dg-hl)"}
       strokeWidth={state === "idle" ? 1.25 : 1.75}
       strokeDasharray={state === "back" ? "5 5" : undefined}
       opacity={state === "idle" ? 0.85 : 1}
@@ -78,8 +78,8 @@ function Node({
         cx={x}
         cy={y}
         r={R}
-        fill="var(--color-board-deep)"
-        stroke={on ? "var(--color-accent)" : "var(--color-chalk)"}
+        fill="var(--color-sunken)"
+        stroke={on ? "var(--dg-hl)" : "var(--dg-ink)"}
         strokeWidth={on ? 2.5 : 1.5}
         className="transition-[stroke] duration-200"
       />
@@ -101,7 +101,7 @@ export function ForwardPassDiagram() {
   const current = stage === -1 ? null : stages[stage as 0 | 1 | 2 | 3 | 4];
 
   return (
-    <figure className="rounded-panel border border-line bg-board-deep">
+    <figure className="rounded-panel border border-line bg-sunken">
       <svg
         viewBox="0 0 600 420"
         className="block h-auto w-full"
@@ -155,7 +155,7 @@ export function ForwardPassDiagram() {
           <g>
             <defs>
               <marker id="fp-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M0 0 L10 5 L0 10 z" fill="var(--color-accent)" />
+                <path d="M0 0 L10 5 L0 10 z" fill="var(--dg-hl)" />
               </marker>
             </defs>
             <line
@@ -163,7 +163,7 @@ export function ForwardPassDiagram() {
               y1={382}
               x2={input.x}
               y2={382}
-              stroke="var(--color-accent)"
+              stroke="var(--dg-hl)"
               strokeWidth={2}
               markerEnd="url(#fp-arrow)"
             />
@@ -178,15 +178,15 @@ export function ForwardPassDiagram() {
         <div aria-live="polite" className="min-h-[7.5rem] sm:min-h-[6.5rem]">
           {current ? (
             <>
-              <p className="font-bold text-chalk">
+              <p className="font-bold text-fg">
                 Step {stage + 1} of {stages.length}: {current.title}
               </p>
-              <p className="mt-1.5 text-chalk-muted">{current.body}</p>
+              <p className="mt-1.5 text-fg-muted">{current.body}</p>
             </>
           ) : (
             <>
-              <p className="font-bold text-chalk">A small neural network</p>
-              <p className="mt-1.5 text-chalk-muted">
+              <p className="font-bold text-fg">A small neural network</p>
+              <p className="mt-1.5 text-fg-muted">
                 Three inputs, four hidden units, two outputs. Step through it to see what happens between data going in
                 and a prediction coming out.
               </p>
@@ -222,8 +222,8 @@ export function ForwardPassDiagram() {
                       className={cx(
                         "grid size-9 place-items-center rounded-full border text-sm font-bold transition-colors duration-150",
                         stage === i
-                          ? "border-accent bg-accent text-board"
-                          : "border-line-strong text-chalk-muted hover:border-chalk hover:text-chalk",
+                          ? "border-primary bg-primary text-on-primary"
+                          : "border-line-strong text-fg-muted hover:border-fg hover:text-fg",
                       )}
                     >
                       {i + 1}
@@ -249,7 +249,7 @@ export function ForwardPassDiagram() {
             </>
           )}
         </div>
-        <p className="mt-4 text-sm text-chalk-faint">Illustration with example values. No model is running.</p>
+        <p className="mt-4 text-sm text-fg-faint">Illustration with example values. No model is running.</p>
       </figcaption>
     </figure>
   );

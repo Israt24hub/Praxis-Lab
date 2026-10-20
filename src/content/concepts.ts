@@ -69,6 +69,6 @@ export const concepts: Concept[] = [
       "You can update every weight, train only a new output head, or add small trainable modules such as LoRA adapters while the original weights stay frozen. Fewer trainable weights means less memory and less risk of overwriting what the model already knew.",
     ],
     caveat: "Layer counts are schematic; the right strategy depends on data size and compute.",
-    pathSlug: "training-fine-tuning",
+    pathSlug: "llms-generative-ai",
   },
 ];

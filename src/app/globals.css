@@ -1,60 +1,204 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — "lecture board" theme.
- * One theme for Phase 1 (dark slate-green board, chalk text, one chalk-yellow accent).
- * Contrast on --color-board: chalk 11.3:1, chalk-muted 7.6:1, chalk-faint 5.4:1, accent 8.5:1.
- * See DECISIONS.md before adding colours.
+ * Praxis Lab design tokens.
+ *
+ * Components use semantic names only (page, surface, fg, primary, link…).
+ * Each theme sets the raw values below; see DECISIONS.md before adding colours.
+ *
+ * Themes (data-theme on <html>):
+ *   light       warm ivory — default
+ *   dark        ink navy
+ *   system      light or dark, following the operating system
+ *   chalkboard  the original slate-green board
+ *
+ * Text contrast is at least 4.5:1 on every surface in every theme.
  */
-@theme {
-  --color-board: #1a372f;
-  --color-board-raised: #21443a;
-  --color-board-deep: #142d26;
-  --color-line: #45695d;
-  --color-line-strong: #5e8577;
-  --color-chalk: #eef1e8;
-  --color-chalk-muted: #b9cbc2;
-  --color-chalk-faint: #93aea2;
-  --color-accent: #f2cf5e;
-  --color-danger: #f5a897;
 
-  --text-display: clamp(2.5rem, 1.7rem + 3vw, 4rem);
-  --text-display--line-height: 1.04;
-  --text-display--letter-spacing: -0.025em;
+@theme inline {
+  --color-page: var(--t-page);
+  --color-surface: var(--t-surface);
+  --color-mist: var(--t-mist);
+  --color-sage: var(--t-sage);
+  --color-sunken: var(--t-sunken);
+  --color-line: var(--t-line);
+  --color-line-strong: var(--t-line-strong);
+  --color-fg: var(--t-fg);
+  --color-fg-muted: var(--t-fg-muted);
+  --color-fg-faint: var(--t-fg-faint);
+  --color-primary: var(--t-primary);
+  --color-primary-hover: var(--t-primary-hover);
+  --color-on-primary: var(--t-on-primary);
+  --color-link: var(--t-link);
+  --color-highlight: var(--t-highlight);
+  --color-highlight-text: var(--t-highlight-text);
+  --color-danger: var(--t-danger);
+  --color-success: var(--t-success);
+
+  --font-display: var(--font-display-src), Georgia, serif;
+  --font-sans: var(--font-sans-src), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-src), ui-monospace, "SFMono-Regular", monospace;
+}
+
+@theme {
+  --text-display: clamp(2.4rem, 1.6rem + 3vw, 3.9rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.015em;
 
   --radius-panel: 1rem;
   --radius-control: 0.5rem;
 
   --container-page: 76rem;
-  --container-prose: 40rem;
+  --container-prose: 42rem;
 }
 
-@theme inline {
-  --font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-atkinson-mono), ui-monospace, "SFMono-Regular", monospace;
+/* ---------- Theme values ---------- */
+
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --t-page: #f7f6f2;
+  --t-surface: #ffffff;
+  --t-mist: #dce5f5;
+  --t-sage: #e6e9e2;
+  --t-sunken: #efeee8;
+  --t-line: #d8d7cf;
+  --t-line-strong: #758095;
+  --t-fg: #202b3c;
+  --t-fg-muted: #4b5567;
+  --t-fg-faint: #5d6778;
+  --t-primary: #5367b7;
+  --t-primary-hover: #44579e;
+  --t-on-primary: #ffffff;
+  --t-link: #4458a8;
+  --t-highlight: #d97960;
+  --t-highlight-text: #a84b33;
+  --t-danger: #a84b33;
+  --t-success: #3f7a5a;
+
+  /* diagrams */
+  --dg-ink: #202b3c;
+  --dg-hl: #5367b7;
+  --dg-on-hl: #ffffff;
+  --dg-pixel-dark: #2b3445;
+  --dg-pixel-light: #f4f5f7;
 }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --t-page: #151c28;
+  --t-surface: #1e2838;
+  --t-mist: #25314a;
+  --t-sage: #222b33;
+  --t-sunken: #10161f;
+  --t-line: #2e3a4f;
+  --t-line-strong: #64738c;
+  --t-fg: #edeff4;
+  --t-fg-muted: #b3bccb;
+  --t-fg-faint: #8e99ab;
+  --t-primary: #5367b7;
+  --t-primary-hover: #46599f;
+  --t-on-primary: #ffffff;
+  --t-link: #8c9ce6;
+  --t-highlight: #e8957f;
+  --t-highlight-text: #e8957f;
+  --t-danger: #f0a08b;
+  --t-success: #86c7a2;
+
+  --dg-ink: #edeff4;
+  --dg-hl: #8c9ce6;
+  --dg-on-hl: #10161f;
+  --dg-pixel-dark: #10161f;
+  --dg-pixel-light: #c9d1dd;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] {
+    color-scheme: dark;
+    --t-page: #151c28;
+    --t-surface: #1e2838;
+    --t-mist: #25314a;
+    --t-sage: #222b33;
+    --t-sunken: #10161f;
+    --t-line: #2e3a4f;
+    --t-line-strong: #64738c;
+    --t-fg: #edeff4;
+    --t-fg-muted: #b3bccb;
+    --t-fg-faint: #8e99ab;
+    --t-primary: #5367b7;
+    --t-primary-hover: #46599f;
+    --t-on-primary: #ffffff;
+    --t-link: #8c9ce6;
+    --t-highlight: #e8957f;
+    --t-highlight-text: #e8957f;
+    --t-danger: #f0a08b;
+    --t-success: #86c7a2;
+
+    --dg-ink: #edeff4;
+    --dg-hl: #8c9ce6;
+    --dg-on-hl: #10161f;
+    --dg-pixel-dark: #10161f;
+    --dg-pixel-light: #c9d1dd;
+  }
+}
+
+:root[data-theme="chalkboard"] {
+  color-scheme: dark;
+  --t-page: #1a372f;
+  --t-surface: #21443a;
+  --t-mist: #24493f;
+  --t-sage: #1f4037;
+  --t-sunken: #142d26;
+  --t-line: #45695d;
+  --t-line-strong: #5e8577;
+  --t-fg: #eef1e8;
+  --t-fg-muted: #b9cbc2;
+  --t-fg-faint: #93aea2;
+  --t-primary: #f2cf5e;
+  --t-primary-hover: #f7dc84;
+  --t-on-primary: #1a372f;
+  --t-link: #f2cf5e;
+  --t-highlight: #f5a897;
+  --t-highlight-text: #f5a897;
+  --t-danger: #f5a897;
+  --t-success: #a8dcb8;
+
+  --dg-ink: #eef1e8;
+  --dg-hl: #f2cf5e;
+  --dg-on-hl: #1a372f;
+  --dg-pixel-dark: #1a372f;
+  --dg-pixel-light: #b9cbc2;
+}
+
+/* ---------- Base ---------- */
 
 @layer base {
   html {
-    background: var(--color-board);
-    color: var(--color-chalk);
-    color-scheme: dark;
+    background: var(--color-page);
+    color: var(--color-fg);
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
     font-family: var(--font-sans);
     font-size: 1.0625rem;
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
   h1,
-  h2,
-  h3 {
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
     text-wrap: balance;
-    font-weight: 700;
-    letter-spacing: -0.012em;
+  }
+
+  h3,
+  h4 {
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
   }
 
   p,
@@ -63,18 +207,19 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-primary);
     outline-offset: 3px;
     border-radius: 4px;
   }
 
   ::selection {
-    background: var(--color-accent);
-    color: var(--color-board);
+    background: var(--color-mist);
+    color: var(--color-fg);
   }
 
   code,
-  pre {
+  pre,
+  kbd {
     font-family: var(--font-mono);
   }
 
@@ -89,15 +234,23 @@
   }
 }
 
+/* ---------- Shared component styles ---------- */
+
 @layer components {
-  /* Inline code inside running text. */
   .code-inline {
     font-family: var(--font-mono);
     font-size: 0.9em;
     padding: 0.05em 0.35em;
     border-radius: 0.3rem;
-    background: var(--color-board-deep);
+    background: var(--color-sunken);
     border: 1px solid var(--color-line);
+  }
+
+  .math {
+    font-family: var(--font-sans);
+    font-size: 1.05em;
+    white-space: pre-wrap;
+    letter-spacing: 0.01em;
   }
 
   /* SVG diagram primitives, shared by every diagram so they read as one system. */
@@ -107,36 +260,41 @@
     fill: none;
   }
   .dg-chalk {
-    stroke: var(--color-chalk);
+    stroke: var(--dg-ink);
     stroke-width: 1.5;
     fill: none;
   }
   .dg-accent {
-    stroke: var(--color-accent);
+    stroke: var(--dg-hl);
     stroke-width: 2;
     fill: none;
   }
   .dg-node {
-    fill: var(--color-board);
-    stroke: var(--color-chalk);
+    fill: var(--color-surface);
+    stroke: var(--dg-ink);
     stroke-width: 1.5;
   }
   .dg-label {
-    fill: var(--color-chalk-muted);
+    fill: var(--color-fg-muted);
     font-size: 13px;
     font-family: var(--font-sans);
   }
   .dg-label-strong {
-    fill: var(--color-chalk);
+    fill: var(--color-fg);
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     font-family: var(--font-sans);
   }
   .dg-mono {
-    fill: var(--color-chalk);
+    fill: var(--color-fg);
     font-size: 12.5px;
     font-family: var(--font-mono);
   }
+  .dg-grid {
+    stroke: var(--color-line);
+    stroke-width: 1;
+  }
+
   /* Hero diagram: larger text in user units on narrow screens, where the SVG is scaled down. */
   @media (max-width: 640px) {
     .fp-text {
@@ -153,11 +311,5 @@
   }
   .diagram-scroll > svg {
     min-width: 540px;
-  }
-
-  .dg-grid {
-    stroke: var(--color-line);
-    stroke-width: 1;
-    opacity: 0.45;
   }
 }

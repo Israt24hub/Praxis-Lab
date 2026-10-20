@@ -9,7 +9,7 @@ export function PlaceholderPage({ title, lead, children }: { title: string; lead
     <>
       <PageHeader title={title} lead={lead} />
       <Container className="py-12 sm:py-16">
-        <div className="max-w-prose space-y-4 text-chalk-muted">{children}</div>
+        <div className="max-w-prose space-y-4 text-fg-muted">{children}</div>
         <ButtonLink href="/" variant="secondary" className="mt-10">
           Back to home
         </ButtonLink>

@@ -8,7 +8,7 @@ import type { ConceptId } from "@/types/content";
  * except the convolution, whose feature map is computed from the input shown.
  */
 
-function ArrowMarker({ id, color = "var(--color-chalk-muted)" }: { id: string; color?: string }) {
+function ArrowMarker({ id, color = "var(--color-fg-muted)" }: { id: string; color?: string }) {
   return (
     <defs>
       <marker id={id} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -45,7 +45,7 @@ function DataToPrediction() {
       <line x1={306} y1={106} x2={352} y2={106} className="dg-line" markerEnd="url(#dp-arrow)" />
 
       <text x={360} y={30} className="dg-label">model</text>
-      <rect x={360} y={72} width={110} height={68} rx={8} fill="var(--color-board-deep)" stroke="var(--color-accent)" strokeWidth={2} />
+      <rect x={360} y={72} width={110} height={68} rx={8} fill="var(--color-sunken)" stroke="var(--dg-hl)" strokeWidth={2} />
       <text x={415} y={111} textAnchor="middle" className="dg-mono">f(x; θ)</text>
       <text x={415} y={164} textAnchor="middle" className="dg-label">θ learned</text>
       <text x={415} y={180} textAnchor="middle" className="dg-label">in training</text>
@@ -79,21 +79,21 @@ function LearningWeights() {
 
   return (
     <svg viewBox="0 0 600 290" className="h-auto w-full" role="img" aria-label="A bowl-shaped loss curve. Starting from a weight far from the minimum, each gradient step moves the weight closer to the minimum.">
-      <ArrowMarker id="lw-arrow" color="var(--color-accent)" />
+      <ArrowMarker id="lw-arrow" color="var(--dg-hl)" />
       <ArrowMarker id="lw-axis" />
       <line x1={60} y1={240} x2={575} y2={240} className="dg-line" markerEnd="url(#lw-axis)" />
       <line x1={60} y1={240} x2={60} y2={22} className="dg-line" markerEnd="url(#lw-axis)" />
       <text x={575} y={264} textAnchor="end" className="dg-label">weight w</text>
       <text x={70} y={22} className="dg-label">loss L(w)</text>
 
-      <path d={curve} className="dg-chalk" />
+      <path d={curve} className="dg-fg" />
 
       <line
         x1={ws[0] - 30}
         y1={y0 - slope * 30}
         x2={ws[0] + 30}
         y2={y0 + slope * 30}
-        stroke="var(--color-chalk-muted)"
+        stroke="var(--color-fg-muted)"
         strokeDasharray="4 4"
         strokeWidth={1.5}
       />
@@ -112,7 +112,7 @@ function LearningWeights() {
       ))}
       {ws.map((w, i) => (
         <g key={`p-${w}`}>
-          <circle cx={w} cy={yOf(w)} r={6} fill={i === 0 ? "var(--color-chalk)" : "var(--color-accent)"} />
+          <circle cx={w} cy={yOf(w)} r={6} fill={i === 0 ? "var(--dg-ink)" : "var(--dg-hl)"} />
           <text x={w} y={262} textAnchor="middle" className="dg-mono">w{i}</text>
           <line x1={w} y1={244} x2={w} y2={236} className="dg-line" />
         </g>
@@ -155,12 +155,12 @@ function ImageFeatures() {
             y={48 + r * ic}
             width={ic}
             height={ic}
-            fill={v ? "var(--color-chalk-muted)" : "var(--color-board)"}
+            fill={v ? "var(--dg-pixel-light)" : "var(--dg-pixel-dark)"}
             stroke="var(--color-line)"
           />
         )),
       )}
-      <rect x={20 + win.c * ic} y={48 + win.r * ic} width={ic * 3} height={ic * 3} fill="none" stroke="var(--color-accent)" strokeWidth={2.5} />
+      <rect x={20 + win.c * ic} y={48 + win.r * ic} width={ic * 3} height={ic * 3} fill="none" stroke="var(--dg-hl)" strokeWidth={2.5} />
 
       <text x={196} y={130} textAnchor="middle" className="dg-label-strong" style={{ fontSize: 22 }}>∗</text>
 
@@ -185,7 +185,7 @@ function ImageFeatures() {
               y={63 + r * fc}
               width={fc}
               height={fc}
-              fill={v > 0 ? "var(--color-accent)" : "var(--color-board)"}
+              fill={v > 0 ? "var(--dg-hl)" : "var(--color-surface)"}
               stroke="var(--color-line)"
             />
             <text
@@ -193,14 +193,14 @@ function ImageFeatures() {
               y={63 + r * fc + 20}
               textAnchor="middle"
               className="dg-mono"
-              style={{ fill: v > 0 ? "var(--color-board)" : "var(--color-chalk-muted)" }}
+              style={{ fill: v > 0 ? "var(--dg-on-hl)" : "var(--color-fg-muted)" }}
             >
               {v}
             </text>
           </g>
         )),
       )}
-      <rect x={384 + win.c * fc} y={63 + win.r * fc} width={fc} height={fc} fill="none" stroke="var(--color-chalk)" strokeWidth={2.5} />
+      <rect x={384 + win.c * fc} y={63 + win.r * fc} width={fc} height={fc} fill="none" stroke="var(--dg-ink)" strokeWidth={2.5} />
 
       <text x={20} y={228} className="dg-label">Multiply the outlined patch by the kernel cell by cell, then add up:</text>
       <text x={20} y={248} className="dg-label">the sum is the outlined value. The map is high only at the edge.</text>
@@ -229,7 +229,7 @@ function TokensEmbeddings() {
       <text x={20} y={80} className="dg-label">tokens</text>
       {tokens.map((t, i) => (
         <g key={t}>
-          <rect x={colX(i)} y={58} width={w} height={34} rx={6} fill="var(--color-board-deep)" stroke="var(--color-accent)" strokeWidth={1.75} />
+          <rect x={colX(i)} y={58} width={w} height={34} rx={6} fill="var(--color-sunken)" stroke="var(--dg-hl)" strokeWidth={1.75} />
           <text x={colX(i) + w / 2} y={80} textAnchor="middle" className="dg-mono">{t}</text>
           <line x1={colX(i) + w / 2} y1={96} x2={colX(i) + w / 2} y2={108} className="dg-line" markerEnd="url(#te-arrow)" />
           <text x={colX(i) + w / 2} y={128} textAnchor="middle" className="dg-mono">{ids[i]}</text>
@@ -285,7 +285,7 @@ function Attention() {
               width={Math.max(weight * scale, 2)}
               height={16}
               rx={3}
-              fill={isTop ? "var(--color-accent)" : "var(--color-line-strong)"}
+              fill={isTop ? "var(--dg-hl)" : "var(--color-line-strong)"}
             />
             <text x={132 + weight * scale + 8} y={y + 15} className="dg-mono">
               {weight.toFixed(2)}
@@ -326,8 +326,8 @@ function FineTuning() {
               width={160}
               height={32}
               rx={6}
-              fill={isHead ? "var(--color-accent)" : "var(--color-board-deep)"}
-              stroke={isHead ? "var(--color-accent)" : "var(--color-line-strong)"}
+              fill={isHead ? "var(--dg-hl)" : "var(--color-sunken)"}
+              stroke={isHead ? "var(--dg-hl)" : "var(--color-line-strong)"}
               strokeDasharray={isHead ? undefined : "4 3"}
               strokeWidth={1.5}
             />
@@ -336,21 +336,21 @@ function FineTuning() {
               y={y(i) + 21}
               textAnchor="middle"
               className="dg-label"
-              style={isHead ? { fill: "var(--color-board)", fontWeight: 700 } : undefined}
+              style={isHead ? { fill: "var(--dg-on-hl)", fontWeight: 700 } : undefined}
             >
               {isHead ? "New task head" : `${name}, frozen`}
             </text>
             {!isHead ? (
               <g>
-                <rect x={514} y={y(i) + 4} width={56} height={24} rx={5} fill="none" stroke="var(--color-accent)" strokeWidth={2} />
-                <text x={542} y={y(i) + 21} textAnchor="middle" className="dg-label" style={{ fill: "var(--color-accent)" }}>LoRA</text>
+                <rect x={514} y={y(i) + 4} width={56} height={24} rx={5} fill="none" stroke="var(--dg-hl)" strokeWidth={2} />
+                <text x={542} y={y(i) + 21} textAnchor="middle" className="dg-label" style={{ fill: "var(--dg-hl)" }}>LoRA</text>
               </g>
             ) : null}
           </g>
         );
       })}
 
-      <rect x={30} y={282} width={14} height={14} rx={3} fill="var(--color-accent)" />
+      <rect x={30} y={282} width={14} height={14} rx={3} fill="var(--dg-hl)" />
       <text x={52} y={294} className="dg-label">trainable</text>
       <rect x={140} y={282} width={14} height={14} rx={3} fill="none" stroke="var(--color-line-strong)" strokeDasharray="4 3" />
       <text x={162} y={294} className="dg-label">frozen (unchanged)</text>

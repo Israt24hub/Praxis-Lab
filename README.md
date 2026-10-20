@@ -1,8 +1,10 @@
 # Praxis Lab
 
-An interactive platform for learning AI and machine learning by seeing what happens inside models, experimenting with them, and applying them to real projects — through to writing an honest research paper.
+An interactive platform for learning AI and machine learning: understand what happens inside a model, experiment with it in the browser, apply it in a full project, and write it up honestly as research.
 
-**Status: Phase 1.** The 2D website, navigation, learning-path syllabi, Project Lab workflow, Research & Papers section and pricing preview. No accounts, payments, backend, 3D or external AI APIs yet. Anything not built is labelled *Planned* on the site.
+Live site: <https://praxis-lab-seven.vercel.app/>
+
+**Status: Phase 2.** Eight-path curriculum (60 topics, every one with its own page), two complete lessons with real in-browser experiments, all 15 Project Lab steps, the Research & Papers guide, and four colour themes. No accounts, payments, backend, 3D or external AI APIs yet. Anything not built is labelled *Planned* on the site.
 
 ## Run it
 
@@ -19,53 +21,65 @@ npm run dev        # http://localhost:3000
 | `npm run build` / `npm start` | Production build / serve it |
 | `npm run typecheck` | Generates route types, then `tsc --noEmit` |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
-| `npm test` | Content-integrity tests (`node:test`, no extra dependencies) |
+| `npm test` | Content-integrity and training-math tests (`node:test`, no extra dependencies) |
 | `npm run check` | Typecheck, lint and tests together |
 
 ## What's on the site
 
 | Route | Contents |
 | --- | --- |
-| `/` | Hero with a step-through network diagram, learning paths and prerequisite map, concept explorer, project workflow, research preview, free vs premium |
-| `/learn`, `/learn/[slug]` | Searchable, filterable paths; a syllabus page per path |
-| `/playground` | A live single-neuron experiment (real arithmetic in the browser) and the planned-experiment catalog |
-| `/project-lab`, `/project-lab/split-without-leakage` | The 15-step workflow, preprocessing-by-data-type table, and one complete sample step guide |
-| `/research` | Research lifecycle, paper-writing roadmap, honest-reporting rules, sample paper outline |
+| `/` | Hero with a step-through network, the eight paths and their prerequisite map, concept explorer, project workflow, research preview, free vs premium |
+| `/learn` | The curriculum: search and filter all 60 topics, complete lessons marked |
+| `/learn/[path]` | Path overview with every topic, prerequisites and what it unlocks |
+| `/learn/[path]/[topic]` | A complete lesson, or a clearly marked planned-lesson page |
+| `/playground` | Live experiments (single neuron; train a line with gradient descent) and the planned catalogue |
+| `/project-lab`, `/project-lab/[step]` | The 15-step workflow; every step has a page, step 6 has the full leakage guide |
+| `/research` | Lifecycle, writing roadmap, findings vs hypotheses vs limitations, writing examples, paper outline, reproducibility checklist |
 | `/pricing` | Pricing preview only |
-| `/contact`, `/privacy`, `/terms` | Placeholders |
+
+**Complete lessons:** [What does learning from data mean?](https://praxis-lab-seven.vercel.app/learn/ml-foundations/learning-from-data) (the reference lesson) and [Perceptrons and single neurons](https://praxis-lab-seven.vercel.app/learn/deep-learning/perceptrons-neurons).
+
+**Themes:** the Theme button in the header switches between Light (default), Dark, System (follows your device) and Chalkboard. The choice is saved in your browser.
 
 ## Project structure
 
 ```
 src/
-  app/                 Routes, layout, 404 / error / loading states, global CSS tokens
+  app/                    Routes, layout, 404 / error / loading states, theme tokens (globals.css)
   components/
-    layout/            Header, navigation, footer, logo
-    ui/                Buttons, status tags, layout primitives, code block
-    diagrams/          SVG diagrams (hero network, concepts, path map, data splits)
-    learn/ playground/ project-lab/ research/   Feature components
-  content/             Typed local content (mock data) — edit text here
-  lib/content.ts       Async accessors; the only way pages read content
-  config/site.ts       Site name, navigation
-  config/features.ts   Flags for later phases (3D, accounts, billing)
-  types/content.ts     Content model
-tests/                 Content-integrity tests
+    layout/               Header, navigation, theme switcher, footer, logo
+    ui/                   Buttons, status tags, layout primitives, code block
+    diagrams/             SVG diagrams (hero network, concepts, path map, data splits)
+    lessons/              Lesson template, curriculum nav, quiz, explanation toggle,
+                          training lab, interactive registry
+    learn/ playground/ project-lab/ research/
+  content/
+    paths.ts              The curriculum: 8 paths, 60 topics
+    lessons/              Complete lessons (one file each) + index
+    datasets/             Small teaching datasets
+    project-lab.ts        The 15 workflow steps
+    guides/               Long-form step guides
+    research.ts, …
+  lib/content.ts          Async accessors; the only way pages read content
+  lib/linear-regression.ts  Gradient-descent math shared by the lab and the tests
+  config/                 Site name and navigation, themes, feature flags
+  types/content.ts        Content model, including the Lesson template
+tests/                    node:test suites
 ```
 
 ## Common changes
 
-- **Edit text or add a learning path:** `src/content/paths.ts` (tests check that prerequisites point to real paths).
-- **Write another Project Lab guide:** add a file in `src/content/guides/`, set `hasGuide: true` on the step in `src/content/project-lab.ts`, and register it in `getStepGuide` in `src/lib/content.ts`.
-- **Add an experiment:** add an entry to `src/content/experiments.ts`; build its component when its status becomes `live`.
+- **Write a new lesson:** copy `src/content/lessons/learning-from-data.ts`, fill in every field (the `Lesson` type lists them), add it to `src/content/lessons/index.ts`, and set `lessonId` on the topic in `src/content/paths.ts`. The page, navigation and "complete" markers update automatically; `npm test` checks the template is filled in.
+- **Add an interactive experiment:** build a client component, register it in `src/components/lessons/interactive-registry.tsx`, and reference its key from a lesson (`interactive.component`) or an experiment (`component`).
+- **Add a topic:** add it to its path in `src/content/paths.ts` with a summary and outcomes; it gets a planned page immediately.
+- **Change colours:** theme values at the top of `src/app/globals.css`. Use the semantic token names; don't add raw colours to components.
 - **Rename the site:** `src/config/site.ts`.
-- **Change colours or type scale:** tokens at the top of `src/app/globals.css`.
 
-Design and architecture decisions, and how Phase 2 features are meant to plug in, are recorded in [DECISIONS.md](./DECISIONS.md).
+Design and architecture decisions are recorded in [DECISIONS.md](./DECISIONS.md).
 
-## Known limitations (Phase 1)
+## Known limitations
 
-- Lessons are not written; path pages show syllabi only. One of fifteen Project Lab steps has a full guide.
-- Only one Playground experiment is live; the others are described, not built.
-- Checklist ticks are not saved (no accounts).
-- Dark theme only.
-- Concept diagrams are illustrations with example values, except the convolution diagram, whose feature map is computed from the image shown.
+- 2 of 60 lessons are complete; the other 58 topics have planned-lesson pages.
+- Step 6 is the only Project Lab step with a long-form guide; the other 14 have the core template.
+- Quiz answers and checklist ticks are not saved (no accounts).
+- Estimated lesson times are planning guides, not measurements.

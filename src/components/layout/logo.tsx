@@ -2,24 +2,27 @@ import Link from "next/link";
 
 import { site } from "@/config/site";
 
-/** Mark: a box you can see into — a tiny network inside an outlined square. */
+/** Mark: a hexagonal frame with a corner line — a lab instrument's dial, from the design board. */
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" className={className} aria-hidden focusable="false">
-      <rect x="2" y="2" width="28" height="28" rx="6" fill="none" stroke="var(--color-chalk)" strokeWidth="2" />
-      <path d="M10 11 L22 16 M10 21 L22 16" stroke="var(--color-chalk-muted)" strokeWidth="1.5" />
-      <circle cx="10" cy="11" r="2.6" fill="var(--color-chalk)" />
-      <circle cx="10" cy="21" r="2.6" fill="var(--color-chalk)" />
-      <circle cx="22" cy="16" r="3.2" fill="var(--color-accent)" />
+      <path
+        d="M16 2.5 L27.7 9.25 L27.7 22.75 L16 29.5 L4.3 22.75 L4.3 9.25 Z"
+        fill="none"
+        stroke="var(--dg-ink)"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path d="M13 9.5 V19.5 H20" fill="none" stroke="var(--dg-hl)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
 export function Logo() {
   return (
-    <Link href="/" className="inline-flex items-center gap-2.5 rounded text-lg font-bold text-chalk">
-      <LogoMark className="size-7" />
-      <span>{site.name}</span>
+    <Link href="/" className="inline-flex items-center gap-2.5 rounded text-fg">
+      <LogoMark className="size-8" />
+      <span className="font-display text-[1.4rem] font-medium leading-none tracking-tight">{site.name}</span>
     </Link>
   );
 }

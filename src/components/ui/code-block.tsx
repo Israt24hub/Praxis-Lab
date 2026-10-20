@@ -19,15 +19,15 @@ export function CodeBlock({ code, label, language }: { code: string; label: stri
   }
 
   return (
-    <figure className="overflow-hidden rounded-panel border border-line bg-board-deep">
-      <figcaption className="flex items-center justify-between gap-4 border-b border-line px-4 py-2 text-sm text-chalk-muted">
+    <figure className="overflow-hidden rounded-panel border border-line bg-sunken">
+      <figcaption className="flex items-center justify-between gap-4 border-b border-line px-4 py-2 text-sm text-fg-muted">
         <span>
-          {label} <span className="text-chalk-faint">({language})</span>
+          {label} <span className="text-fg-faint">({language})</span>
         </span>
         <button
           type="button"
           onClick={copy}
-          className="inline-flex items-center gap-1.5 rounded px-2 py-1 text-chalk hover:bg-board-raised"
+          className="inline-flex items-center gap-1.5 rounded px-2 py-1 text-fg hover:bg-surface"
         >
           {state === "copied" ? (
             <Check aria-hidden className="size-4" />
@@ -40,7 +40,7 @@ export function CodeBlock({ code, label, language }: { code: string; label: stri
       <pre
         tabIndex={0}
         aria-label={`${label} code`}
-        className="overflow-x-auto p-4 text-[0.875rem] leading-relaxed text-chalk sm:p-5"
+        className="overflow-x-auto p-4 text-[0.875rem] leading-relaxed text-fg sm:p-5"
       >
         <code>{code}</code>
       </pre>

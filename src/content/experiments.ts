@@ -16,6 +16,21 @@ export const experiments: Experiment[] = [
     access: "free",
     status: "live",
     pathSlug: "deep-learning",
+    component: "neuron-lab",
+    lesson: { pathSlug: "deep-learning", topicSlug: "perceptrons-neurons" },
+  },
+  {
+    id: "learning-from-data",
+    title: "Train a line with gradient descent",
+    summary:
+      "Fit a line to fifteen students’ study hours and exam scores — by hand, then with real gradient descent — and watch training and test error change as you adjust the learning rate.",
+    interactions: ["Fit by hand", "Learning rate", "Feature scaling", "Step, run, pause and reset"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "learning-from-data-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "learning-from-data" },
   },
   {
     id: "decision-boundary",
@@ -100,6 +115,6 @@ export const experiments: Experiment[] = [
     renderer: "2d",
     access: "premium",
     status: "planned",
-    pathSlug: "training-fine-tuning",
+    pathSlug: "llms-generative-ai",
   },
 ];

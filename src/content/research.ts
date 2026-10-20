@@ -190,3 +190,82 @@ export const paperSections: PaperSection[] = [
     example: "[Each entry opened and checked against the claim it supports]",
   },
 ];
+
+/* ---------- Phase 2 additions ---------- */
+
+/** The three kinds of statement a paper makes, and how to tell them apart. */
+export const claimTypes = [
+  {
+    kind: "Finding",
+    definition: "What your experiments directly measured, on the data and setup you actually used.",
+    signals: "“On our test split…”, “across five seeds…”, “we observed…”",
+    example:
+      "Removing `duration` lowered average precision from [measured value] to [measured value] for all four models on our held-out test split.",
+  },
+  {
+    kind: "Hypothesis",
+    definition: "A possible explanation or generalisation that your results suggest but do not test.",
+    signals: "“This suggests…”, “one explanation is…”, “we expect… but did not test”",
+    example:
+      "Features recorded after the outcome may inflate results in other marketing datasets too; we did not test datasets beyond this one.",
+  },
+  {
+    kind: "Limitation",
+    definition: "A specific boundary on where your findings apply, or a weakness in how they were obtained.",
+    signals: "“We only…”, “results may not hold when…”, “we could not…”",
+    example:
+      "We evaluate on a single dataset collected by one bank, so the size of the effect may differ for other institutions and time periods.",
+  },
+];
+
+/** Weak versus clearer academic sentences. Brackets mark where real measurements go. */
+export const writingExamples = [
+  {
+    problem: "Vague claim",
+    weak: "Our model achieves state-of-the-art results.",
+    better:
+      "On the UCI Bank Marketing test split, our model reaches an average precision of [value] compared with [value] for the strongest baseline we tested, averaged over five seeds.",
+    why: "Names the dataset, the metric, the comparison and how variation was handled.",
+  },
+  {
+    problem: "Overclaiming",
+    weak: "This proves that neural networks are better for tabular data.",
+    better: "On this dataset, the multilayer perceptron did not outperform gradient-boosted trees.",
+    why: "One dataset cannot prove a general rule. The clearer version reports what was observed.",
+  },
+  {
+    problem: "Missing method detail",
+    weak: "We preprocessed the data and trained several models.",
+    better:
+      "We one-hot encoded the ten categorical features, standardised the numerical features using training-set statistics, and trained logistic regression, a random forest and gradient-boosted trees.",
+    why: "Someone else could now repeat the preprocessing.",
+  },
+  {
+    problem: "Token limitation",
+    weak: "Our work has some limitations.",
+    better:
+      "The data comes from one Portuguese bank’s campaigns between 2008 and 2010, so results may not transfer to other banks, countries or periods.",
+    why: "A specific limitation tells readers exactly where the conclusions stop.",
+  },
+  {
+    problem: "Unsupported citation",
+    weak: "Data leakage is a widespread problem [citation].",
+    better:
+      "Kapoor and Narayanan (2023) document leakage in published machine-learning-based science across many fields.",
+    why: "Cites a specific source you have read, for the specific claim it supports.",
+  },
+];
+
+export const reproducibilityChecklist = [
+  "The exact dataset version, source and licence are stated, with access instructions.",
+  "Every preprocessing step is described, including dropped rows and features.",
+  "Train, validation and test splits can be rebuilt (saved indices or a seed and procedure).",
+  "Hyperparameters and search spaces are reported for every method, including baselines.",
+  "Random seeds, library versions and hardware are recorded.",
+  "Results report variation across seeds or confidence intervals.",
+  "Every number in the paper is produced by a script in the repository.",
+  "Figures and tables are generated from logged results, not edited by hand.",
+  "Failed and negative runs that bear on the claims are reported.",
+  "Every reference has been opened and checked against the claim it supports.",
+  "The repository README explains how to reproduce the main results.",
+];

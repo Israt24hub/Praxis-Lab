@@ -17,7 +17,7 @@ function lowerFirst(text: string) {
 /** Planned experiments. Live ones are rendered separately on the Playground page. */
 export function ExperimentCatalog({ experiments, pathTitles }: Props) {
   if (experiments.length === 0) {
-    return <p className="text-chalk-muted">No further experiments are planned yet.</p>;
+    return <p className="text-fg-muted">No further experiments are planned yet.</p>;
   }
 
   return (
@@ -32,13 +32,13 @@ export function ExperimentCatalog({ experiments, pathTitles }: Props) {
               {needs3d ? <StatusTag kind="3d" /> : null}
             </div>
             <h3 className="mt-4 text-xl">{exp.title}</h3>
-            <p className="mt-2 text-chalk-muted">{exp.summary}</p>
-            <p className="mt-4 text-sm text-chalk-muted">
-              <span className="font-bold text-chalk">You’ll change: </span>
+            <p className="mt-2 text-fg-muted">{exp.summary}</p>
+            <p className="mt-4 text-sm text-fg-muted">
+              <span className="font-bold text-fg">You’ll change: </span>
               {exp.interactions.map(lowerFirst).join(", ")}
             </p>
             <p className="mt-auto pt-5 text-sm">
-              <Link href={`/learn/${exp.pathSlug}`} className="text-chalk-muted underline decoration-line-strong underline-offset-4 hover:text-chalk hover:decoration-accent">
+              <Link href={`/learn/${exp.pathSlug}`} className="text-fg-muted underline decoration-line-strong underline-offset-4 hover:text-fg hover:decoration-link">
                 {pathTitles[exp.pathSlug]}
               </Link>
             </p>

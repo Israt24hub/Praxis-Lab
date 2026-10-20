@@ -22,7 +22,7 @@ export default async function PricingPage() {
         lead="The essentials of learning AI should be free. Premium will add deeper interactive tools and guided courses on top — later."
       >
         {!features.billing ? (
-          <p className="max-w-prose rounded-control border border-line-strong bg-board-deep px-4 py-3 text-chalk">
+          <p className="max-w-prose rounded-control border border-line-strong bg-sunken px-4 py-3 text-fg">
             Preview only. Prices haven’t been set, there are no paid plans, and this site doesn’t collect payment details.
           </p>
         ) : null}
@@ -38,7 +38,7 @@ export default async function PricingPage() {
                 aria-labelledby={`plan-${plan.id}`}
                 className={
                   isFree
-                    ? "flex flex-col rounded-panel border-2 border-accent p-6 sm:p-8"
+                    ? "flex flex-col rounded-panel border-2 border-primary p-6 sm:p-8"
                     : "flex flex-col rounded-panel border border-dashed border-line-strong p-6 sm:p-8"
                 }
               >
@@ -46,18 +46,18 @@ export default async function PricingPage() {
                 <h2 id={`plan-${plan.id}`} className="mt-4 text-3xl">
                   {plan.name}
                 </h2>
-                <p className="mt-2 text-lg text-chalk-muted">{plan.summary}</p>
+                <p className="mt-2 text-lg text-fg-muted">{plan.summary}</p>
                 <ul className="mt-6 space-y-4">
                   {plan.features.map((f) => (
                     <li key={f.label} className="flex gap-3">
                       {isFree ? (
-                        <Check aria-hidden className="mt-1 size-4 shrink-0 text-accent" />
+                        <Check aria-hidden className="mt-1 size-4 shrink-0 text-link" />
                       ) : (
-                        <Minus aria-hidden className="mt-1 size-4 shrink-0 text-chalk-faint" />
+                        <Minus aria-hidden className="mt-1 size-4 shrink-0 text-fg-faint" />
                       )}
                       <span>
                         {f.label}
-                        {f.note ? <span className="block text-sm text-chalk-muted">{f.note}</span> : null}
+                        {f.note ? <span className="block text-sm text-fg-muted">{f.note}</span> : null}
                       </span>
                     </li>
                   ))}
@@ -66,7 +66,7 @@ export default async function PricingPage() {
                   {isFree ? (
                     <ButtonLink href="/learn">Start learning free</ButtonLink>
                   ) : (
-                    <p className="text-chalk-muted">Not available yet. No sign-up or waitlist exists in this version.</p>
+                    <p className="text-fg-muted">Not available yet. No sign-up or waitlist exists in this version.</p>
                   )}
                 </div>
               </section>
@@ -82,7 +82,7 @@ export default async function PricingPage() {
             {pricingFaq.map((q) => (
               <div key={q.question} className="py-6">
                 <dt className="text-lg font-bold">{q.question}</dt>
-                <dd className="mt-2 text-chalk-muted">{q.answer}</dd>
+                <dd className="mt-2 text-fg-muted">{q.answer}</dd>
               </div>
             ))}
           </dl>

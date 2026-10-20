@@ -14,7 +14,7 @@ function isActive(pathname: string | null, href: string) {
 }
 
 const linkBase =
-  "rounded px-3 py-2 text-[0.975rem] transition-colors duration-150 hover:text-chalk";
+  "rounded px-3 py-2 text-[0.975rem] transition-colors duration-150 hover:text-fg";
 
 /** Desktop links without an active state — used while the pathname is unknown. */
 export function StaticNavLinks() {
@@ -22,7 +22,7 @@ export function StaticNavLinks() {
     <ul className="hidden items-center gap-1 lg:flex">
       {mainNav.map((item) => (
         <li key={item.href}>
-          <Link href={item.href} className={cx(linkBase, "text-chalk-muted")}>
+          <Link href={item.href} className={cx(linkBase, "text-fg-muted")}>
             {item.label}
           </Link>
         </li>
@@ -54,8 +54,8 @@ export function SiteNav() {
                 className={cx(
                   linkBase,
                   active
-                    ? "text-chalk underline decoration-accent decoration-2 underline-offset-[10px]"
-                    : "text-chalk-muted",
+                    ? "text-fg underline decoration-link decoration-2 underline-offset-[10px]"
+                    : "text-fg-muted",
                 )}
               >
                 {item.label}
@@ -67,7 +67,7 @@ export function SiteNav() {
 
       <button
         type="button"
-        className="inline-flex items-center gap-2 rounded-control border border-line-strong px-3 py-2 text-chalk lg:hidden"
+        className="inline-flex items-center gap-2 rounded-control border border-line-strong px-3 py-2 text-fg lg:hidden"
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpenOn(open ? null : pathname)}
@@ -79,7 +79,7 @@ export function SiteNav() {
       {open ? (
         <div
           id="mobile-menu"
-          className="absolute inset-x-0 top-full border-b border-line bg-board-deep lg:hidden"
+          className="absolute inset-x-0 top-full border-b border-line bg-sunken lg:hidden"
         >
           <ul className="mx-auto flex max-w-page flex-col px-5 py-3 sm:px-8">
             {mainNav.map((item) => {
@@ -91,12 +91,12 @@ export function SiteNav() {
                     aria-current={active ? "page" : undefined}
                     className={cx(
                       "flex items-center justify-between border-b border-line py-3.5 text-lg last:border-b-0",
-                      active ? "font-bold text-chalk" : "text-chalk-muted",
+                      active ? "font-bold text-fg" : "text-fg-muted",
                     )}
                     onClick={() => setOpenOn(null)}
                   >
                     {item.label}
-                    {active ? <span className="size-2 rounded-full bg-accent" aria-hidden /> : null}
+                    {active ? <span className="size-2 rounded-full bg-primary" aria-hidden /> : null}
                   </Link>
                 </li>
               );

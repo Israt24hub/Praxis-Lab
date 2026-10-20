@@ -4,9 +4,9 @@ import { Container } from "@/components/ui/layout";
 export default function NotFound() {
   return (
     <Container className="py-24 sm:py-32">
-      <p className="text-chalk-muted">Error 404</p>
+      <p className="text-fg-muted">Error 404</p>
       <h1 className="mt-2 text-4xl sm:text-5xl">This page doesn’t exist.</h1>
-      <p className="mt-4 max-w-prose text-lg text-chalk-muted">
+      <p className="mt-4 max-w-prose text-lg text-fg-muted">
         The link may be mistyped, or the page may be planned but not built yet. Learning paths and the Project Lab list
         everything that exists so far.
       </p>

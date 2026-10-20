@@ -26,7 +26,7 @@ export function Section({ id, title, intro, action, children, className }: Secti
             <h2 id={headingId} className="text-3xl leading-tight sm:text-4xl">
               {title}
             </h2>
-            {intro ? <div className="mt-4 text-lg text-chalk-muted">{intro}</div> : null}
+            {intro ? <div className="mt-4 text-lg text-fg-muted">{intro}</div> : null}
           </div>
           {action ? <div className="shrink-0">{action}</div> : null}
         </div>
@@ -48,9 +48,9 @@ export function PageHeader({ title, lead, children, context }: PageHeaderProps) 
   return (
     <header className="border-b border-line pb-12 pt-12 sm:pb-16 sm:pt-16">
       <Container>
-        {context ? <div className="mb-6 text-chalk-muted">{context}</div> : null}
+        {context ? <div className="mb-6 text-fg-muted">{context}</div> : null}
         <h1 className="max-w-4xl text-4xl leading-[1.08] sm:text-5xl">{title}</h1>
-        <div className="mt-5 max-w-prose text-lg text-chalk-muted sm:text-xl">{lead}</div>
+        <div className="mt-5 max-w-prose text-lg text-fg-muted sm:text-xl">{lead}</div>
         {children ? <div className="mt-8">{children}</div> : null}
       </Container>
     </header>
@@ -62,7 +62,7 @@ export function PhaseNote({ children, className }: { children: ReactNode; classN
   return (
     <p
       className={cx(
-        "max-w-prose border-l-2 border-accent pl-4 text-chalk-muted",
+        "max-w-prose border-l-2 border-primary pl-4 text-fg-muted",
         className,
       )}
     >

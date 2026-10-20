@@ -11,13 +11,14 @@ const COL_GAP = 52;
 const ROW_GAP = 18;
 
 const shortTitles: Record<string, string> = {
-  "ml-foundations": "ML Foundations",
+  "math-foundations": "Mathematics",
+  "ml-foundations": "Machine Learning",
   "deep-learning": "Deep Learning",
   "computer-vision": "Computer Vision",
-  "nlp-language-models": "NLP & Language Models",
-  "llms-generative-ai": "LLMs & Generative AI",
-  "training-fine-tuning": "Training & Fine-Tuning",
-  "research-paper-writing": "Research & Paper Writing",
+  "nlp-language-models": "NLP",
+  "llms-generative-ai": "Transformers & LLMs",
+  "ai-engineering": "AI Engineering",
+  "research-paper-writing": "Research & Writing",
 };
 
 function depthOf(slug: string, bySlug: Map<string, LearningPath>, seen = new Set<string>()): number {
@@ -96,11 +97,14 @@ export function PathMap({ paths }: { paths: LearningPath[] }) {
               width={NODE_W}
               height={NODE_H}
               rx={8}
-              fill="var(--color-board-deep)"
-              stroke={isStart ? "var(--color-accent)" : "var(--color-chalk-muted)"}
+              fill="var(--color-surface)"
+              stroke={isStart ? "var(--dg-hl)" : "var(--color-fg-muted)"}
               strokeWidth={isStart ? 2 : 1.25}
             />
-            <text x={x + 14} y={y + 28} className="dg-label-strong" style={{ fontSize: 13.5 }}>
+            <text x={x + 14} y={y + 28} className="dg-label" style={{ fontSize: 13 }}>
+              {p.code}
+            </text>
+            <text x={x + 34} y={y + 28} className="dg-label-strong" style={{ fontSize: 13.5 }}>
               {shortTitles[p.slug] ?? p.title}
             </text>
           </g>

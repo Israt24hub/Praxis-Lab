@@ -50,7 +50,7 @@ function Slider({ name, label, value, onChange }: { name: keyof Params; label: s
     <div>
       <div className="flex items-baseline justify-between">
         <label htmlFor={id} className="text-sm">
-          <span className="font-bold">{name}</span> <span className="text-chalk-muted">{label}</span>
+          <span className="font-bold">{name}</span> <span className="text-fg-muted">{label}</span>
         </label>
         <output htmlFor={id} className="font-mono text-sm tabular-nums">
           {fmt(value)}
@@ -64,7 +64,7 @@ function Slider({ name, label, value, onChange }: { name: keyof Params; label: s
         step={0.1}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-2 w-full accent-[var(--color-accent)]"
+        className="mt-2 w-full accent-[var(--color-primary)]"
       />
     </div>
   );
@@ -88,9 +88,9 @@ function ActivationPlot({ activation, z }: { activation: Activation; z: number }
     <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label={`${activations[activation].label} curve with the current point at z = ${fmt(z)}, output ${fmt(a)}.`}>
       <line x1={pad} y1={sy(Math.max(range[0], Math.min(0, range[1])))} x2={W - pad} y2={sy(Math.max(range[0], Math.min(0, range[1])))} className="dg-line" />
       <line x1={sx(0)} y1={pad / 2} x2={sx(0)} y2={H - pad} className="dg-line" />
-      <path d={curve} className="dg-chalk" />
-      <line x1={sx(z)} y1={sy(a)} x2={sx(z)} y2={H - pad} stroke="var(--color-accent)" strokeDasharray="3 3" />
-      <circle cx={sx(z)} cy={sy(a)} r={6} fill="var(--color-accent)" />
+      <path d={curve} className="dg-fg" />
+      <line x1={sx(z)} y1={sy(a)} x2={sx(z)} y2={H - pad} stroke="var(--dg-hl)" strokeDasharray="3 3" />
+      <circle cx={sx(z)} cy={sy(a)} r={6} fill="var(--dg-hl)" />
       <text x={W - pad} y={H - 6} textAnchor="end" className="dg-label">z</text>
       <text x={sx(0) + 6} y={pad} className="dg-label">a = f(z)</text>
     </svg>
@@ -106,7 +106,7 @@ export function NeuronLab() {
   const a = activations[activation].fn(z);
 
   return (
-    <div className="grid gap-8 rounded-panel border border-line bg-board-raised p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+    <div className="grid gap-8 rounded-panel border border-line bg-surface p-5 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
       <div className="space-y-6">
         <fieldset className="space-y-4">
           <legend className="mb-1 font-bold">Inputs</legend>
@@ -126,8 +126,8 @@ export function NeuronLab() {
               <label
                 key={key}
                 className={cx(
-                  "cursor-pointer rounded-control border px-3 py-2 text-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent",
-                  activation === key ? "border-accent bg-board text-chalk" : "border-line-strong text-chalk-muted hover:text-chalk",
+                  "cursor-pointer rounded-control border px-3 py-2 text-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary",
+                  activation === key ? "border-primary bg-page text-fg" : "border-line-strong text-fg-muted hover:text-fg",
                 )}
               >
                 <input
@@ -157,22 +157,22 @@ export function NeuronLab() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded-control border border-line bg-board-deep p-4 sm:p-5">
-          <p className="text-sm text-chalk-muted">1. Weighted sum</p>
+        <div className="rounded-control border border-line bg-sunken p-4 sm:p-5">
+          <p className="text-sm text-fg-muted">1. Weighted sum</p>
           <p className="mt-1 overflow-x-auto font-mono text-[0.95rem] leading-relaxed">
             z = {fmtSigned(p.w1)} × {fmtSigned(p.x1)} + {fmtSigned(p.w2)} × {fmtSigned(p.x2)} + {fmtSigned(p.b)}
             <br />
-            <span className="text-accent">z = {fmt(z)}</span>
+            <span className="text-link">z = {fmt(z)}</span>
           </p>
-          <p className="mt-4 text-sm text-chalk-muted">2. Activation</p>
+          <p className="mt-4 text-sm text-fg-muted">2. Activation</p>
           <p className="mt-1 font-mono text-[0.95rem]">
-            a = {activations[activation].label}({fmt(z)}) = <span className="text-accent">{activation === "relu" ? fmt(a) : a.toFixed(3)}</span>
+            a = {activations[activation].label}({fmt(z)}) = <span className="text-link">{activation === "relu" ? fmt(a) : a.toFixed(3)}</span>
           </p>
         </div>
-        <div className="rounded-control border border-line bg-board-deep p-3 sm:p-4">
+        <div className="rounded-control border border-line bg-sunken p-3 sm:p-4">
           <ActivationPlot activation={activation} z={z} />
         </div>
-        <p aria-live="polite" className="text-chalk-muted">
+        <p aria-live="polite" className="text-fg-muted">
           {activations[activation].note(z, a)}
         </p>
       </div>

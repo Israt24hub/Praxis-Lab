@@ -16,14 +16,23 @@ export type Access = "free" | "premium";
  */
 export type Availability = "live" | "outline" | "planned";
 
-export interface PathModule {
+/** One topic in a learning path. It has a full lesson only when `lessonId` is set. */
+export interface Topic {
+  slug: string;
   title: string;
   summary: string;
-  access: Access;
+  /** What a learner will be able to do after the lesson. */
+  outcomes: string[];
+  /** Id of a complete lesson in src/content/lessons. Absent = planned. */
+  lessonId?: string;
+  /** Existing material on the site that covers this topic in the meantime. */
+  seeAlso?: { label: string; href: string };
 }
 
 export interface LearningPath {
   slug: string;
+  /** Curriculum letter, A–H. */
+  code: string;
   title: string;
   /** What the learner will be able to do at the end. */
   destination: string;
@@ -33,12 +42,87 @@ export interface LearningPath {
   prerequisitePaths: string[];
   /** Skills assumed beyond the prerequisite paths. */
   prerequisiteSkills: string[];
-  modules: PathModule[];
+  topics: Topic[];
   /** The project a learner completes in this path. */
   capstone: string;
   /** Planned premium additions on top of the free core. */
   premiumExtras: string[];
-  status: Availability;
+}
+
+/* ---------- Lessons ---------- */
+
+/**
+ * Inline text supports `code` in backticks and **bold**. Keep it plain otherwise;
+ * structure belongs in blocks, not in the string.
+ */
+export type RichText = string;
+
+export type Block =
+  | { type: "p"; text: RichText }
+  | { type: "list"; items: RichText[]; ordered?: boolean }
+  | { type: "table"; caption: string; head: string[]; rows: RichText[][] }
+  | { type: "callout"; tone: "note" | "warning" | "honesty"; title: string; text: RichText }
+  | { type: "equation"; expression: string; meaning: RichText };
+
+export interface QuizQuestion {
+  question: RichText;
+  options: RichText[];
+  /** Index into options. */
+  answer: number;
+  explanation: RichText;
+}
+
+export interface Lesson {
+  id: string;
+  pathSlug: string;
+  topicSlug: string;
+  title: string;
+  summary: string;
+  level: Level;
+  /** Planned study time, a rough guide rather than a measurement. */
+  minutes: [number, number];
+  objectives: RichText[];
+  prerequisites: { label: string; href?: string }[];
+
+  intro: Block[];
+  why: Block[];
+  /** Two explanations of the same idea; the learner switches between them. */
+  explanation: { beginner: Block[]; technical: Block[] };
+  analogy: { title: string; blocks: Block[] };
+  workedExample: { title: string; blocks: Block[] };
+  math?: { blocks: Block[]; notation: { symbol: string; meaning: RichText }[] };
+  process: { title: string; steps: { title: string; text: RichText }[] };
+  interactive: {
+    /** Key into the interactive registry (src/components/lessons/interactive-registry.tsx). */
+    component: string;
+    intro: RichText;
+    /** Real computation in the browser, or a conceptual simulation. */
+    kind: "computation" | "simulation";
+    tryThis: RichText[];
+    expect: { action: RichText; result: RichText }[];
+  };
+  code: {
+    label: string;
+    language: string;
+    source: string;
+    walkthrough: { lines: string; text: RichText }[];
+    shapes: { name: string; shape: string; meaning: RichText }[];
+    output?: { label: string; text: string; note: RichText };
+  };
+  useCases: { title: string; text: RichText }[];
+  mistakes: { title: string; text: RichText; kind: "mistake" | "limitation" | "misconception" }[];
+  exercise: { prompt: Block[]; hints: RichText[]; solution: Block[] };
+  quiz: QuizQuestion[];
+  glossary: { term: string; definition: RichText }[];
+  references: { title: string; source: string; url?: string; note: RichText }[];
+  next: { pathSlug: string; topicSlug: string; reason: RichText }[];
+  teaching: {
+    notes: RichText[];
+    demo: RichText;
+    discussion: RichText[];
+    misconceptions: RichText[];
+    challenge: { prompt: RichText; answer: Block[] };
+  };
 }
 
 export type ConceptId =
@@ -71,6 +155,10 @@ export interface Experiment {
   access: Access;
   status: Availability;
   pathSlug: string;
+  /** Registry key of the component, for live experiments. */
+  component?: string;
+  /** The lesson this experiment belongs to, if any. */
+  lesson?: { pathSlug: string; topicSlug: string };
 }
 
 export type PhaseId = "frame" | "data" | "model" | "evaluate" | "report";
@@ -87,9 +175,20 @@ export interface WorkflowStep {
   phase: PhaseId;
   title: string;
   summary: string;
+  /** Why the step exists. */
+  purpose: RichText;
+  /** What you need before starting the step. */
+  input: RichText;
   /** What you should have in hand when the step is done. */
-  output: string;
-  /** True when a full guide page exists for this step. */
+  output: RichText;
+  tools: RichText[];
+  mistakes: RichText[];
+  /** How this step's output feeds the next step. */
+  next: RichText;
+  /** Extra teaching content for steps that need it (e.g. preprocessing by data type). */
+  details?: Block[];
+  examples?: { label: string; language: string; code: string; note: RichText }[];
+  /** True when the step also has a full long-form guide. */
   hasGuide: boolean;
 }
 
