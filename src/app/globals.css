@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — "lecture board" theme.
+ * One theme for Phase 1 (dark slate-green board, chalk text, one chalk-yellow accent).
+ * Contrast on --color-board: chalk 11.3:1, chalk-muted 7.6:1, chalk-faint 5.4:1, accent 8.5:1.
+ * See DECISIONS.md before adding colours.
+ */
+@theme {
+  --color-board: #1a372f;
+  --color-board-raised: #21443a;
+  --color-board-deep: #142d26;
+  --color-line: #45695d;
+  --color-line-strong: #5e8577;
+  --color-chalk: #eef1e8;
+  --color-chalk-muted: #b9cbc2;
+  --color-chalk-faint: #93aea2;
+  --color-accent: #f2cf5e;
+  --color-danger: #f5a897;
+
+  --text-display: clamp(2.5rem, 1.7rem + 3vw, 4rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.025em;
+
+  --radius-panel: 1rem;
+  --radius-control: 0.5rem;
+
+  --container-page: 76rem;
+  --container-prose: 40rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-atkinson-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+@layer base {
+  html {
+    background: var(--color-board);
+    color: var(--color-chalk);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-board);
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Inline code inside running text. */
+  .code-inline {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 0.05em 0.35em;
+    border-radius: 0.3rem;
+    background: var(--color-board-deep);
+    border: 1px solid var(--color-line);
+  }
+
+  /* SVG diagram primitives, shared by every diagram so they read as one system. */
+  .dg-line {
+    stroke: var(--color-line-strong);
+    stroke-width: 1.5;
+    fill: none;
+  }
+  .dg-chalk {
+    stroke: var(--color-chalk);
+    stroke-width: 1.5;
+    fill: none;
+  }
+  .dg-accent {
+    stroke: var(--color-accent);
+    stroke-width: 2;
+    fill: none;
+  }
+  .dg-node {
+    fill: var(--color-board);
+    stroke: var(--color-chalk);
+    stroke-width: 1.5;
+  }
+  .dg-label {
+    fill: var(--color-chalk-muted);
+    font-size: 13px;
+    font-family: var(--font-sans);
+  }
+  .dg-label-strong {
+    fill: var(--color-chalk);
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-sans);
+  }
+  .dg-mono {
+    fill: var(--color-chalk);
+    font-size: 12.5px;
+    font-family: var(--font-mono);
+  }
+  /* Hero diagram: larger text in user units on narrow screens, where the SVG is scaled down. */
+  @media (max-width: 640px) {
+    .fp-text {
+      font-size: 21px;
+    }
+    .fp-value {
+      font-size: 15px;
+    }
+  }
+
+  /* Detailed diagrams keep a readable minimum width and scroll sideways on phones. */
+  .diagram-scroll {
+    overflow-x: auto;
+  }
+  .diagram-scroll > svg {
+    min-width: 540px;
+  }
+
+  .dg-grid {
+    stroke: var(--color-line);
+    stroke-width: 1;
+    opacity: 0.45;
+  }
+}
