@@ -23,17 +23,21 @@ export default async function LearnPage() {
         lead="Eight paths, from the mathematics behind models to writing a research paper. Every topic has its own page; the ones marked complete are full lessons with an experiment, code, exercises and a quiz."
       >
         <PhaseNote>
-          {complete.length} of {topics.length} lessons are complete:{" "}
-          {complete.map((c, i) => (
-            <span key={c.topic.slug}>
-              {i > 0 ? " and " : null}
-              <Link href={`/learn/${c.path.slug}/${c.topic.slug}`} className="font-semibold text-link underline underline-offset-4">
+          {complete.length} of {topics.length} lessons are complete, each with an experiment that computes in your browser.
+          The rest are planned and say what they will cover. Complete lessons:
+        </PhaseNote>
+        <ul className="mt-4 flex max-w-4xl flex-wrap gap-2">
+          {complete.map((c) => (
+            <li key={c.topic.slug}>
+              <Link
+                href={`/learn/${c.path.slug}/${c.topic.slug}`}
+                className="inline-block rounded-full border border-line bg-surface px-3 py-1 text-sm text-link hover:border-primary"
+              >
                 {c.topic.title}
               </Link>
-            </span>
+            </li>
           ))}
-          . The rest are planned and say what they will cover.
-        </PhaseNote>
+        </ul>
       </PageHeader>
       <Container className="py-12 sm:py-16">
         <h2 className="sr-only">Prerequisite map</h2>

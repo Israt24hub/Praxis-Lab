@@ -25,6 +25,7 @@ function FooterList({ title, links }: { title: string; links: { href: string; la
 export async function SiteFooter() {
   const paths = await getPaths();
   const pathLinks = paths.map((p) => ({ href: `/learn/${p.slug}`, label: p.title }));
+  const completeLessons = paths.reduce((n, p) => n + p.topics.filter((t) => t.lessonId).length, 0);
 
   return (
     <footer className="mt-auto border-t border-line bg-sunken">
@@ -39,7 +40,7 @@ export async function SiteFooter() {
             applying it to real projects.
           </p>
           <p className="mt-4 text-fg-muted">
-            {site.phase}: two complete lessons, every curriculum topic mapped, and the full project workflow. Items marked
+            {site.phase}: {completeLessons} complete lessons, every curriculum topic mapped, and the full project workflow. Items marked
             <q className="mx-1">Planned</q>don’t exist yet.
           </p>
         </div>

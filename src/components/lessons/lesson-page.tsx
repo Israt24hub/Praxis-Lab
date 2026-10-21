@@ -238,7 +238,9 @@ export function LessonPage({ lesson, path, topic, topicTitles }: Props) {
           {lesson.code.output ? (
             <div className="mt-4 rounded-panel border border-line bg-sunken p-4">
               <p className="text-sm font-semibold">{lesson.code.output.label}</p>
-              <pre className="mt-2 overflow-x-auto text-[0.875rem] text-fg">{lesson.code.output.text}</pre>
+              <pre tabIndex={0} aria-label={`${lesson.code.output.label} of ${lesson.code.label}`} className="mt-2 overflow-x-auto text-[0.875rem] text-fg">
+                {lesson.code.output.text}
+              </pre>
               <p className="mt-2 text-sm text-fg-muted">
                 <RichText text={lesson.code.output.note} />
               </p>

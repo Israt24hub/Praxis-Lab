@@ -31,6 +31,24 @@ export default async function PlaygroundPage() {
         </PhaseNote>
       </PageHeader>
 
+      <nav aria-labelledby="live-index-heading" className="border-b border-line py-8">
+        <Container>
+          <h2 id="live-index-heading" className="font-sans text-lg font-semibold">
+            Live experiments
+          </h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {live.map((exp) => (
+              <li key={exp.id}>
+                <a href={`#${exp.id}`} className="block h-full rounded-panel border border-line bg-surface p-4 hover:border-primary">
+                  <span className="block font-semibold text-link">{exp.title}</span>
+                  <span className="mt-1 block text-sm text-fg-muted">{pathTitles[exp.pathSlug]}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </nav>
+
       {live.map((exp, i) => {
         const Component = interactiveRegistry[exp.component!];
         return (
@@ -38,7 +56,7 @@ export default async function PlaygroundPage() {
             key={exp.id}
             id={exp.id}
             aria-labelledby={`${exp.id}-heading`}
-            className={i > 0 ? "border-t border-line py-12 sm:py-16" : "py-12 sm:py-16"}
+            className={i > 0 ? "scroll-mt-20 border-t border-line py-12 sm:py-16" : "scroll-mt-20 py-12 sm:py-16"}
           >
             <Container>
               <div className="mb-8 max-w-prose">

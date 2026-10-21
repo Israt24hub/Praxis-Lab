@@ -102,6 +102,7 @@ export const paths: LearningPath[] = [
           "Spot features that would not exist at prediction time",
           "Describe a dataset by its rows, columns and label distribution",
         ],
+        lessonId: "features-labels-datasets",
       },
       {
         slug: "supervised-unsupervised",
@@ -122,6 +123,7 @@ export const paths: LearningPath[] = [
           "Fit linear and logistic regression in scikit-learn",
           "Read predicted probabilities and choose a decision threshold",
         ],
+        lessonId: "regression-classification",
       },
       {
         slug: "trees-ensembles",
@@ -163,6 +165,7 @@ export const paths: LearningPath[] = [
           "Explain the bias–variance trade-off in plain terms",
           "Apply regularization, simpler models or more data as remedies",
         ],
+        lessonId: "overfitting-generalization",
       },
       {
         slug: "metrics-cross-validation",
@@ -173,6 +176,7 @@ export const paths: LearningPath[] = [
           "Explain why accuracy misleads on imbalanced data",
           "Run k-fold cross-validation without leaking preprocessing",
         ],
+        lessonId: "metrics-cross-validation",
       },
     ],
     capstone:

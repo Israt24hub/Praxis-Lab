@@ -33,6 +33,58 @@ export const experiments: Experiment[] = [
     lesson: { pathSlug: "ml-foundations", topicSlug: "learning-from-data" },
   },
   {
+    id: "dataset-builder",
+    title: "Build a dataset from raw records",
+    summary:
+      "Give each column of a student record a role — feature, target or not used — and see the encoded feature matrix, and whether a prediction for a new student is even possible.",
+    interactions: ["Column roles", "One-hot encoding options", "New-student row"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "dataset-builder-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "features-labels-datasets" },
+  },
+  {
+    id: "pass-fail",
+    title: "Logistic regression versus a straight line",
+    summary:
+      "Fit both models to pass/fail data, move the decision threshold, and add one unusual student to see which model it disturbs.",
+    interactions: ["Decision threshold", "Show or hide each model", "Add an extreme student", "Query any number of hours"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "pass-fail-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "regression-classification" },
+  },
+  {
+    id: "overfitting",
+    title: "Overfitting explorer",
+    summary:
+      "Fit polynomials of degree 0 to 11 to noisy data and watch training and validation error part ways. Then tame the wild fits with a penalty or more data.",
+    interactions: ["Polynomial degree", "Penalty strength λ", "12 or 48 training points", "Show the true curve"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "overfitting-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "overfitting-generalization" },
+  },
+  {
+    id: "threshold",
+    title: "Thresholds and metrics",
+    summary:
+      "Slide a decision threshold over a simulated screening model where only 10% of cases are positive, and watch the confusion matrix, precision, recall, F1 and both curves respond.",
+    interactions: ["Decision threshold", "Presets for accuracy, F1 and recall", "ROC and precision–recall curves"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "threshold-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "metrics-cross-validation" },
+  },
+  {
     id: "decision-boundary",
     title: "Decision boundaries",
     summary:

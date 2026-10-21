@@ -56,6 +56,16 @@ A running log of the choices made while building Praxis Lab, and why. Add to it 
 - **All 15 workflow steps have pages** with purpose, input, output, tools, common mistakes and the link to the next step. Step 5 adds preprocessing for tabular data, text and images (with code); step 11 covers metric choice and imbalance; step 6 keeps its full guide below the template.
 - **Research page** gained a section bar, the finding / hypothesis / limitation distinction, weak-versus-clearer writing pairs, and an interactive reproducibility checklist (not saved, like other checklists).
 
+## Phase 3, round 1 — 2026-10-21: four Path B lessons
+
+- **Lessons added:** Features, labels, datasets and predictions; Regression and classification; Overfitting, underfitting and generalization; Evaluation metrics and cross-validation. Chosen to continue directly from the reference lesson and to cover honest evaluation, which later paths rely on. Supervised vs unsupervised, trees and ensembles, clustering and train/validation/test are next.
+- **Every lab is real computation, never a recording.** Logistic regression is fitted by Newton’s method (exact, no regularisation, matching `LogisticRegression(C=np.inf)`); polynomials by least squares; metrics with scikit-learn’s definitions (step-wise average precision, tie-aware ROC-AUC). The math lives in `src/lib/` and is shared with the tests.
+- **Teaching data is small, invented or simulated, and labelled as such.** Each dataset was designed so the lesson’s point is visible: only the post-outcome `final_exam` column separates pass from fail (a test enforces this); pass/fail labels overlap between 2.5 and 5 hours so logistic regression has a finite solution; the noisy-wave and screening data are generated from fixed NumPy seeds that the lesson code reproduces.
+- **Polynomials use a Chebyshev basis** in the browser. It describes the same curves as powers of x but keeps degree-11 fits accurate; the lesson’s NumPy code (`Polynomial.fit`, which rescales internally) gives the same numbers. scikit-learn’s `PolynomialFeatures` + `LinearRegression` was rejected for the code example because at degree 11 the powers-of-x system is badly conditioned and it returned a noticeably different fit (validation MSE 437 instead of about 857,000).
+- **Scores are stored as integers in hundredths** so thresholds compare exactly in JavaScript.
+- **Lab layouts respond to their container**, not the viewport (Tailwind container queries), because the same lab is narrow inside a lesson and wide on the Playground.
+- **Overfitting verdicts are relative to the best validation degree**: within 20% is “about as good”, up to 2× is “a little more complex than needed”, beyond that “overfitting”. A fixed threshold mislabelled the 48-point case.
+
 ## Planned for later phases (not built)
 
 - **3D explorers:** add `@react-three/fiber` + `three`, and load each 3D experiment with `next/dynamic` (`ssr: false`) keyed by experiment `id`, only when `features.threeD` is on. The experiment registry's `renderer: "2d" | "3d"` field exists for this, so the 3D bundle never loads on pages that don't need it.

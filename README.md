@@ -21,7 +21,7 @@ npm run dev        # http://localhost:3000
 | `npm run build` / `npm start` | Production build / serve it |
 | `npm run typecheck` | Generates route types, then `tsc --noEmit` |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
-| `npm test` | Content-integrity and training-math tests (`node:test`, no extra dependencies) |
+| `npm test` | Content-integrity tests, and tests that every lab reproduces its lesson's numbers (`node:test`, no extra dependencies) |
 | `npm run check` | Typecheck, lint and tests together |
 
 ## What's on the site
@@ -37,7 +37,12 @@ npm run dev        # http://localhost:3000
 | `/research` | Lifecycle, writing roadmap, findings vs hypotheses vs limitations, writing examples, paper outline, reproducibility checklist |
 | `/pricing` | Pricing preview only |
 
-**Complete lessons:** [What does learning from data mean?](https://praxis-lab-seven.vercel.app/learn/ml-foundations/learning-from-data) (the reference lesson) and [Perceptrons and single neurons](https://praxis-lab-seven.vercel.app/learn/deep-learning/perceptrons-neurons).
+**Complete lessons (6 of 60):**
+
+- Path B, Machine Learning: [What does learning from data mean?](https://praxis-lab-seven.vercel.app/learn/ml-foundations/learning-from-data) (the reference lesson), [Features, labels, datasets and predictions](https://praxis-lab-seven.vercel.app/learn/ml-foundations/features-labels-datasets), [Regression and classification](https://praxis-lab-seven.vercel.app/learn/ml-foundations/regression-classification), [Overfitting, underfitting and generalization](https://praxis-lab-seven.vercel.app/learn/ml-foundations/overfitting-generalization), [Evaluation metrics and cross-validation](https://praxis-lab-seven.vercel.app/learn/ml-foundations/metrics-cross-validation)
+- Path C, Deep Learning: [Perceptrons and single neurons](https://praxis-lab-seven.vercel.app/learn/deep-learning/perceptrons-neurons)
+
+Each has an experiment that computes in the browser; the numbers each lesson quotes are checked by `tests/lab-math.test.ts` and `tests/linear-regression.test.ts`.
 
 **Themes:** the Theme button in the header switches between Light (default), Dark, System (follows your device) and Chalkboard. The choice is saved in your browser.
 
@@ -61,7 +66,8 @@ src/
     guides/               Long-form step guides
     research.ts, …
   lib/content.ts          Async accessors; the only way pages read content
-  lib/linear-regression.ts  Gradient-descent math shared by the lab and the tests
+  lib/                    Lab math shared by the browser and the tests: linear-regression,
+                          classification, polyfit, metrics
   config/                 Site name and navigation, themes, feature flags
   types/content.ts        Content model, including the Lesson template
 tests/                    node:test suites
@@ -79,7 +85,7 @@ Design and architecture decisions are recorded in [DECISIONS.md](./DECISIONS.md)
 
 ## Known limitations
 
-- 2 of 60 lessons are complete; the other 58 topics have planned-lesson pages.
+- 6 of 60 lessons are complete; the other 54 topics have planned-lesson pages.
 - Step 6 is the only Project Lab step with a long-form guide; the other 14 have the core template.
 - Quiz answers and checklist ticks are not saved (no accounts).
 - Estimated lesson times are planning guides, not measurements.
