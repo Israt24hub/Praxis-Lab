@@ -1,0 +1,31 @@
+# Runs on every push and pull request: typecheck, lint, tests (including the
+# tests that every lab reproduces its lesson's numbers), then a production build.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck, lint and tests
+        run: npm run check
+      - name: Production build
+        run: npm run build
