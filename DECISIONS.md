@@ -77,6 +77,15 @@ A running log of the choices made while building Praxis Lab, and why. Add to it 
 - **Categorical colours added** (`--dg-cat-1` … `--dg-cat-6` in every theme), each at least 3:1 against surface and sunken backgrounds, for clusters. Classes keep the filled/hollow convention so meaning never depends on colour alone.
 - **Shared lab controls** (`src/components/lessons/lab-ui.tsx`): segmented choices built on radio inputs, step sliders, checkboxes, stat grids and verdict boxes.
 
+## Engineering track — 2026-10-23: CI, sitemap and link previews
+
+- **CI on GitHub Actions** (`.github/workflows/ci.yml`): on every push to `main` and every pull request, `npm ci`, then `npm run check` (typecheck, lint, all tests — including that every lab reproduces its lesson’s numbers), then `npm run build`. Node 22, matching `engines`.
+- **Sitemap and robots.txt are generated from the content** (`src/app/sitemap.ts`, `src/app/robots.ts`), so new lessons and steps appear without editing a list. Complete lessons get priority 0.8, planned-lesson pages 0.4. No `lastModified` dates: the content has no reliable edit dates, and invented ones would mislead crawlers.
+- **One canonical address** in `src/config/site.ts` (`url`), used for `metadataBase`, canonical links, the sitemap and robots.txt. Changing the domain is a one-line change.
+- **One link-preview image for the whole site** (`src/app/opengraph-image.tsx`), prerendered at build time in the design-board palette. It needs static `.woff` fonts (`@fontsource/playfair-display`, `@fontsource/inter`) because the image renderer cannot read the variable `.woff2` files the site uses. Per-page images are possible later; titles and descriptions already differ per page.
+- **`pageMetadata()`** (`src/lib/metadata.ts`) builds title, description, canonical URL, Open Graph and Twitter fields together. Next.js does not copy a page’s title into Open Graph, and a page that sets its own Open Graph loses the inherited image, so the helper sets both explicitly.
+- **Not done yet:** Playwright and axe checks are still run by hand during development, not in CI.
+
 ## Planned for later phases (not built)
 
 - **3D explorers:** add `@react-three/fiber` + `three`, and load each 3D experiment with `next/dynamic` (`ssr: false`) keyed by experiment `id`, only when `features.threeD` is on. The experiment registry's `renderer: "2d" | "3d"` field exists for this, so the 3D bundle never loads on pages that don't need it.

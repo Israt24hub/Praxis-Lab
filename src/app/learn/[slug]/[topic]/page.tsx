@@ -11,6 +11,7 @@ import { Container } from "@/components/ui/layout";
 import { StatusTag } from "@/components/ui/status-tag";
 import { getPaths, getTopic, getTopicParams } from "@/lib/content";
 import type { LearningPath, Topic } from "@/types/content";
+import { pageMetadata } from "@/lib/metadata";
 
 /* See learn/[slug]/page.tsx: unknown topics must return a real 404. */
 export const ensureStatic = "navigation";
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: PageProps<"/learn/[slug]/[top
   const { slug, topic } = await params;
   const data = await getTopic(slug, topic);
   if (!data) return { title: "Topic not found" };
-  return { title: data.topic.title, description: data.lesson?.summary ?? data.topic.summary };
+  return pageMetadata({ title: data.topic.title, description: data.lesson?.summary ?? data.topic.summary, path: `/learn/${slug}/${topic}` });
 }
 
 function PlannedTopic({

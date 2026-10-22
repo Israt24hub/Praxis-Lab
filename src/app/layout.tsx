@@ -9,11 +9,21 @@ import { display, mono, sans } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
     default: `${site.name}: see inside AI, then build it`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `${site.name}: see inside AI, then build it`,
+    description: site.description,
+    url: "/",
+    siteName: site.name,
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title: `${site.name}: see inside AI, then build it`, description: site.description },
 };
 
 export const viewport: Viewport = {

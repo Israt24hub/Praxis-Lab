@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 import { PlaceholderPage } from "@/components/ui/placeholder-page";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = { title: "Contact" };
+export const metadata: Metadata = pageMetadata({ title: "Contact", description: "How to reach the Praxis Lab project. A contact form and address are planned.", path: "/contact" });
 
 export default function ContactPage() {
   return (

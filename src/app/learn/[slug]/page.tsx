@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { CurriculumNav } from "@/components/lessons/curriculum-nav";
 import { Container } from "@/components/ui/layout";
 import { getPath, getPaths } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
 /*
  * Render the whole page before responding, so unknown slugs reach notFound()
@@ -21,7 +22,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/learn/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const path = await getPath(slug);
-  return path ? { title: `Path ${path.code}: ${path.title}`, description: path.destination } : { title: "Path not found" };
+  return path ? pageMetadata({ title: `Path ${path.code}: ${path.title}`, description: path.destination, path: `/learn/${path.slug}` }) : { title: "Path not found" };
 }
 
 const levelLabel = { beginner: "Beginner", intermediate: "Intermediate", advanced: "Advanced" } as const;

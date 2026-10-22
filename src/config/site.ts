@@ -7,6 +7,8 @@ export const site = {
   description:
     "Learn AI and machine learning by seeing inside models: step-through diagrams, in-browser experiments, a complete project workflow, and a guide to writing honest research papers.",
   phase: "Phase 3",
+  /** Canonical address, used for the sitemap, robots.txt and link previews. Change it if the domain changes. */
+  url: "https://praxis-lab-seven.vercel.app",
 } as const;
 
 export interface NavItem {

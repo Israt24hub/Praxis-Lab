@@ -9,6 +9,7 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { Container } from "@/components/ui/layout";
 import { StatusTag } from "@/components/ui/status-tag";
 import { getStep, getWorkflow } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
 /* Unknown steps must reach notFound() before streaming, for a real 404. */
 export const ensureStatic = "navigation";
@@ -21,7 +22,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/project-lab/[step]">): Promise<Metadata> {
   const { step } = await params;
   const data = await getStep(step);
-  return data ? { title: `Step ${data.step.number}: ${data.step.title}`, description: data.step.summary } : { title: "Step not found" };
+  return data ? pageMetadata({ title: `Step ${data.step.number}: ${data.step.title}`, description: data.step.summary, path: `/project-lab/${data.step.slug}` }) : { title: "Step not found" };
 }
 
 export default async function StepPage({ params }: PageProps<"/project-lab/[step]">) {

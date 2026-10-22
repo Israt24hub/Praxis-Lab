@@ -6,11 +6,14 @@ import { Container, PageHeader } from "@/components/ui/layout";
 import { StatusTag } from "@/components/ui/status-tag";
 import { features } from "@/config/features";
 import { getPricing } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Pricing",
-  description: "The intended split between free learning resources and planned premium tools. Nothing is for sale yet.",
-};
+  description:
+    "The intended split between free learning resources and planned premium tools. Nothing is for sale yet.",
+  path: "/pricing",
+});
 
 export default async function PricingPage() {
   const { plans, pricingFaq } = await getPricing();

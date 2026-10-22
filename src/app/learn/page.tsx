@@ -5,11 +5,14 @@ import { PathMap } from "@/components/diagrams/path-map";
 import { PathBrowser } from "@/components/learn/path-browser";
 import { Container, PageHeader, PhaseNote } from "@/components/ui/layout";
 import { getPaths } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Learn",
-  description: "The Praxis Lab curriculum: eight learning paths from mathematics and machine learning to LLMs, engineering and research writing.",
-};
+  description:
+    "The Praxis Lab curriculum: eight learning paths from mathematics and machine learning to LLMs, engineering and research writing.",
+  path: "/learn",
+});
 
 export default async function LearnPage() {
   const paths = await getPaths();

@@ -5,12 +5,14 @@ import { Workflow } from "@/components/project-lab/workflow";
 import { ButtonLink } from "@/components/ui/button";
 import { Container, PageHeader, PhaseNote } from "@/components/ui/layout";
 import { getWorkflow } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Project Lab",
   description:
     "A fifteen-step workflow for a complete machine learning project, from research question to paper, with a full guide to leak-free data splitting.",
-};
+  path: "/project-lab",
+});
 
 export default async function ProjectLabPage() {
   const { phases, steps } = await getWorkflow();

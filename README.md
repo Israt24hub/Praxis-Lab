@@ -22,7 +22,7 @@ npm run dev        # http://localhost:3000
 | `npm run typecheck` | Generates route types, then `tsc --noEmit` |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
 | `npm test` | Content-integrity tests, and tests that every lab reproduces its lesson's numbers (`node:test`, no extra dependencies) |
-| `npm run check` | Typecheck, lint and tests together |
+| `npm run check` | Typecheck, lint and tests together (GitHub Actions runs this and a production build on every push) |
 
 ## What's on the site
 
@@ -36,6 +36,7 @@ npm run dev        # http://localhost:3000
 | `/project-lab`, `/project-lab/[step]` | The 15-step workflow; every step has a page, step 6 has the full leakage guide |
 | `/research` | Lifecycle, writing roadmap, findings vs hypotheses vs limitations, writing examples, paper outline, reproducibility checklist |
 | `/pricing` | Pricing preview only |
+| `/sitemap.xml`, `/robots.txt`, `/opengraph-image` | Generated from the content: every page in the sitemap, and one link-preview image for the whole site |
 
 **Complete lessons (10 of 60):**
 
@@ -69,7 +70,7 @@ src/
   lib/                    Lab math shared by the browser and the tests: linear-regression,
                           classification, polyfit, metrics, kmeans (and PCA), tree (CART and
                           random forest), selection (split and test-reuse simulations), rng
-  config/                 Site name and navigation, themes, feature flags
+  config/                 Site name, address (used by the sitemap and previews), navigation, themes, feature flags
   types/content.ts        Content model, including the Lesson template
 tests/                    node:test suites
 ```
@@ -80,7 +81,7 @@ tests/                    node:test suites
 - **Add an interactive experiment:** build a client component, register it in `src/components/lessons/interactive-registry.tsx`, and reference its key from a lesson (`interactive.component`) or an experiment (`component`).
 - **Add a topic:** add it to its path in `src/content/paths.ts` with a summary and outcomes; it gets a planned page immediately.
 - **Change colours:** theme values at the top of `src/app/globals.css`. Use the semantic token names; don't add raw colours to components.
-- **Rename the site:** `src/config/site.ts`.
+- **Rename the site or change its domain:** `src/config/site.ts` (`name`, `url`).
 
 Design and architecture decisions are recorded in [DECISIONS.md](./DECISIONS.md).
 

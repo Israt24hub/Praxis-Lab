@@ -7,11 +7,14 @@ import { ExperimentCatalog } from "@/components/playground/experiment-catalog";
 import { Container, PageHeader, PhaseNote } from "@/components/ui/layout";
 import { StatusTag } from "@/components/ui/status-tag";
 import { getExperiments, getPaths } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "AI Playground",
-  description: "Interactive experiments that show what happens inside a model. Live experiments compute in your browser.",
-};
+  description:
+    "Interactive experiments that show what happens inside a model. Live experiments compute in your browser.",
+  path: "/playground",
+});
 
 export default async function PlaygroundPage() {
   const [experiments, paths] = await Promise.all([getExperiments(), getPaths()]);

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 import { PlaceholderPage } from "@/components/ui/placeholder-page";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = { title: "Terms" };
+export const metadata: Metadata = pageMetadata({ title: "Terms", description: "Praxis Lab's terms of use. Full terms will be published before accounts or paid plans exist.", path: "/terms" });
 
 export default function TermsPage() {
   return (

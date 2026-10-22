@@ -8,12 +8,14 @@ import { RichText } from "@/components/lessons/rich-text";
 import { ButtonLink } from "@/components/ui/button";
 import { Container, PageHeader, PhaseNote, Section } from "@/components/ui/layout";
 import { getResearch } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Research & Papers",
   description:
     "The research lifecycle, a paper-writing roadmap and a sample paper outline for machine learning projects — with honest reporting at the centre.",
-};
+  path: "/research",
+});
 
 export default async function ResearchPage() {
   const {
