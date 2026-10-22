@@ -66,6 +66,17 @@ A running log of the choices made while building Praxis Lab, and why. Add to it 
 - **Lab layouts respond to their container**, not the viewport (Tailwind container queries), because the same lab is narrow inside a lesson and wide on the Playground.
 - **Overfitting verdicts are relative to the best validation degree**: within 20% is “about as good”, up to 2× is “a little more complex than needed”, beyond that “overfitting”. A fixed threshold mislabelled the 48-point case.
 
+## Phase 3, round 2 — 2026-10-22: Path B finished
+
+- **Lessons added:** Supervised and unsupervised learning; Decision trees and ensemble methods; Clustering and dimensionality reduction; Training, validation and testing. Path B now has all nine lessons. Each lab is also a live Playground experiment (10 in total).
+- **Supervised vs unsupervised is shown on one dataset.** Two-group k-means on study and work hours finds the job split (39 of 40), not the pass split (22 of 40); on study hours alone it finds the pass split. The point — unsupervised methods find the largest structure in the features given, not the question asked — needs labels to demonstrate, and the lab says that real problems lack them.
+- **Trees match scikit-learn exactly up to depth 5.** Deeper, some splits tie and scikit-learn breaks ties at random (`random_state`), so the lab keeps the first tie found and the lesson quotes scikit-learn’s own numbers separately. The random forest uses its own seeded generator (100 trees, one random feature per split, probabilities averaged as scikit-learn does); its numbers differ slightly from scikit-learn’s forest and the lesson says so.
+- **k-means uses random starts from the data with a seeded generator,** keeping the best of 10 for the elbow chart. Standardised inertia for k = 1–3 matches scikit-learn; for larger k either may find a slightly better local minimum. The step-through starts from one random start on purpose, so learners see local minima.
+- **PCA is drawn with equal scales on both axes,** the way PCA measures distance. On raw units the data collapses to a vertical strip, which makes the scaling lesson visible.
+- **The test-reuse simulation is honest about its seed.** Every candidate model has a true accuracy of exactly 50% by construction. Seed 28 was chosen so that the default settings show typical behaviour (no coincidental agreement between validation and test winners); a “Draw a new dataset” button moves to other seeds, which show the same pattern with different numbers.
+- **Categorical colours added** (`--dg-cat-1` … `--dg-cat-6` in every theme), each at least 3:1 against surface and sunken backgrounds, for clusters. Classes keep the filled/hollow convention so meaning never depends on colour alone.
+- **Shared lab controls** (`src/components/lessons/lab-ui.tsx`): segmented choices built on radio inputs, step sliders, checkboxes, stat grids and verdict boxes.
+
 ## Planned for later phases (not built)
 
 - **3D explorers:** add `@react-three/fiber` + `three`, and load each 3D experiment with `next/dynamic` (`ssr: false`) keyed by experiment `id`, only when `features.threeD` is on. The experiment registry's `renderer: "2d" | "3d"` field exists for this, so the 3D bundle never loads on pages that don't need it.

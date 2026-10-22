@@ -71,3 +71,46 @@ export function fitLine(points: Point[]) {
 export function accuracy(predict: (x: number) => 0 | 1, points: Point[]) {
   return points.filter((p) => predict(p.x) === p.y).length / points.length;
 }
+
+/**
+ * Logistic regression on two features with scikit-learn's default L2 penalty:
+ * minimises  Σ log loss + (1 / 2C)·(w₁² + w₂²), the intercept not penalised
+ * (LogisticRegression() with C = 1). Newton's method on three parameters.
+ */
+export function fitLogistic2(rows: { x: [number, number]; y: number }[], C = 1, iterations = 100) {
+  let w1 = 0;
+  let w2 = 0;
+  let b = 0;
+  for (let it = 0; it < iterations; it++) {
+    // gradient g and Hessian H for (w1, w2, b)
+    const g = [w1 / C, w2 / C, 0];
+    const H = [
+      [1 / C, 0, 0],
+      [0, 1 / C, 0],
+      [0, 0, 0],
+    ];
+    for (const { x, y } of rows) {
+      const p = sigmoid(w1 * x[0] + w2 * x[1] + b);
+      const r = p * (1 - p);
+      const v = [x[0], x[1], 1];
+      for (let i = 0; i < 3; i++) {
+        g[i] += (p - y) * v[i];
+        for (let j = 0; j < 3; j++) H[i][j] += r * v[i] * v[j];
+      }
+    }
+    const step = solve3(H, g);
+    w1 -= step[0];
+    w2 -= step[1];
+    b -= step[2];
+    if (Math.hypot(...step) < 1e-12) break;
+  }
+  return { w: [w1, w2] as [number, number], b };
+}
+
+/** Solve a 3 × 3 linear system by Cramer's rule. */
+function solve3(A: number[][], v: number[]) {
+  const det = (m: number[][]) =>
+    m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+  const d = det(A);
+  return [0, 1, 2].map((c) => det(A.map((row, r) => row.map((val, j) => (j === c ? v[r] : val)))) / d);
+}

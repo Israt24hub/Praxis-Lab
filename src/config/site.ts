@@ -6,7 +6,7 @@ export const site = {
   tagline: "Understand what happens inside a model.",
   description:
     "Learn AI and machine learning by seeing inside models: step-through diagrams, in-browser experiments, a complete project workflow, and a guide to writing honest research papers.",
-  phase: "Phase 2",
+  phase: "Phase 3",
 } as const;
 
 export interface NavItem {

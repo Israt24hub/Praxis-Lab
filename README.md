@@ -4,7 +4,7 @@ An interactive platform for learning AI and machine learning: understand what ha
 
 Live site: <https://praxis-lab-seven.vercel.app/>
 
-**Status: Phase 2.** Eight-path curriculum (60 topics, every one with its own page), two complete lessons with real in-browser experiments, all 15 Project Lab steps, the Research & Papers guide, and four colour themes. No accounts, payments, backend, 3D or external AI APIs yet. Anything not built is labelled *Planned* on the site.
+**Status: Phase 3.** Eight-path curriculum (60 topics, every one with its own page), 10 complete lessons with real in-browser experiments (Path B, Machine Learning, is finished), all 15 Project Lab steps, the Research & Papers guide, and four colour themes. No accounts, payments, backend, 3D or external AI APIs yet. Anything not built is labelled *Planned* on the site.
 
 ## Run it
 
@@ -32,14 +32,14 @@ npm run dev        # http://localhost:3000
 | `/learn` | The curriculum: search and filter all 60 topics, complete lessons marked |
 | `/learn/[path]` | Path overview with every topic, prerequisites and what it unlocks |
 | `/learn/[path]/[topic]` | A complete lesson, or a clearly marked planned-lesson page |
-| `/playground` | Live experiments (single neuron; train a line with gradient descent) and the planned catalogue |
+| `/playground` | The 10 live experiments, each also embedded in its lesson, and the planned catalogue |
 | `/project-lab`, `/project-lab/[step]` | The 15-step workflow; every step has a page, step 6 has the full leakage guide |
 | `/research` | Lifecycle, writing roadmap, findings vs hypotheses vs limitations, writing examples, paper outline, reproducibility checklist |
 | `/pricing` | Pricing preview only |
 
-**Complete lessons (6 of 60):**
+**Complete lessons (10 of 60):**
 
-- Path B, Machine Learning: [What does learning from data mean?](https://praxis-lab-seven.vercel.app/learn/ml-foundations/learning-from-data) (the reference lesson), [Features, labels, datasets and predictions](https://praxis-lab-seven.vercel.app/learn/ml-foundations/features-labels-datasets), [Regression and classification](https://praxis-lab-seven.vercel.app/learn/ml-foundations/regression-classification), [Overfitting, underfitting and generalization](https://praxis-lab-seven.vercel.app/learn/ml-foundations/overfitting-generalization), [Evaluation metrics and cross-validation](https://praxis-lab-seven.vercel.app/learn/ml-foundations/metrics-cross-validation)
+- Path B, Machine Learning (all 9 topics): [What does learning from data mean?](https://praxis-lab-seven.vercel.app/learn/ml-foundations/learning-from-data) (the reference lesson), [Features, labels, datasets and predictions](https://praxis-lab-seven.vercel.app/learn/ml-foundations/features-labels-datasets), [Supervised and unsupervised learning](https://praxis-lab-seven.vercel.app/learn/ml-foundations/supervised-unsupervised), [Regression and classification](https://praxis-lab-seven.vercel.app/learn/ml-foundations/regression-classification), [Decision trees and ensemble methods](https://praxis-lab-seven.vercel.app/learn/ml-foundations/trees-ensembles), [Clustering and dimensionality reduction](https://praxis-lab-seven.vercel.app/learn/ml-foundations/clustering-dimensionality-reduction), [Training, validation and testing](https://praxis-lab-seven.vercel.app/learn/ml-foundations/train-validation-test), [Overfitting, underfitting and generalization](https://praxis-lab-seven.vercel.app/learn/ml-foundations/overfitting-generalization), [Evaluation metrics and cross-validation](https://praxis-lab-seven.vercel.app/learn/ml-foundations/metrics-cross-validation)
 - Path C, Deep Learning: [Perceptrons and single neurons](https://praxis-lab-seven.vercel.app/learn/deep-learning/perceptrons-neurons)
 
 Each has an experiment that computes in the browser; the numbers each lesson quotes are checked by `tests/lab-math.test.ts` and `tests/linear-regression.test.ts`.
@@ -67,7 +67,8 @@ src/
     research.ts, …
   lib/content.ts          Async accessors; the only way pages read content
   lib/                    Lab math shared by the browser and the tests: linear-regression,
-                          classification, polyfit, metrics
+                          classification, polyfit, metrics, kmeans (and PCA), tree (CART and
+                          random forest), selection (split and test-reuse simulations), rng
   config/                 Site name and navigation, themes, feature flags
   types/content.ts        Content model, including the Lesson template
 tests/                    node:test suites
@@ -85,7 +86,7 @@ Design and architecture decisions are recorded in [DECISIONS.md](./DECISIONS.md)
 
 ## Known limitations
 
-- 6 of 60 lessons are complete; the other 54 topics have planned-lesson pages.
+- 10 of 60 lessons are complete; the other 50 topics have planned-lesson pages.
 - Step 6 is the only Project Lab step with a long-form guide; the other 14 have the core template.
 - Quiz answers and checklist ticks are not saved (no accounts).
 - Estimated lesson times are planning guides, not measurements.

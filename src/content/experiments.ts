@@ -46,6 +46,19 @@ export const experiments: Experiment[] = [
     lesson: { pathSlug: "ml-foundations", topicSlug: "features-labels-datasets" },
   },
   {
+    id: "learning-types",
+    title: "Supervised versus unsupervised",
+    summary:
+      "The same 40 students, with and without labels: logistic regression learns pass/fail, k-means finds its own two groups — and you check what those groups actually match.",
+    interactions: ["Supervised or unsupervised", "Features used for grouping", "Compare groups with a label", "Held-out students"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "learning-types-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "supervised-unsupervised" },
+  },
+  {
     id: "pass-fail",
     title: "Logistic regression versus a straight line",
     summary:
@@ -57,6 +70,45 @@ export const experiments: Experiment[] = [
     pathSlug: "ml-foundations",
     component: "pass-fail-lab",
     lesson: { pathSlug: "ml-foundations", topicSlug: "regression-classification" },
+  },
+  {
+    id: "trees-forests",
+    title: "Decision trees and random forests",
+    summary:
+      "Grow a classification tree from depth 1 to 10 or a forest of 100 trees, see the region each predicts, and trace the exact questions a tree asks for one plant.",
+    interactions: ["Tree depth", "Tree or random forest", "Trace any point", "Validation data and the true rule"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "tree-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "trees-ensembles" },
+  },
+  {
+    id: "kmeans-pca",
+    title: "k-means and PCA",
+    summary:
+      "Step through k-means one assignment and one move at a time, restart it from new random centres, and watch standardising change both k-means and PCA.",
+    interactions: ["Step, run or restart k-means", "Number of clusters", "Standardise features", "PCA projections"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "clustering-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "clustering-dimensionality-reduction" },
+  },
+  {
+    id: "splits",
+    title: "Splits and test-set reuse",
+    summary:
+      "Split clinic visits randomly, by patient or by date and see what each mixes; then choose among up to 1,000 useless models and watch the reported test score inflate.",
+    interactions: ["Random, grouped or time split", "Models tried", "Test set size", "Choose on validation or test"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "ml-foundations",
+    component: "splits-lab",
+    lesson: { pathSlug: "ml-foundations", topicSlug: "train-validation-test" },
   },
   {
     id: "overfitting",

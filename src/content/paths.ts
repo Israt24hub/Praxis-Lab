@@ -113,6 +113,7 @@ export const paths: LearningPath[] = [
           "Give examples of each from real applications",
           "Explain why unsupervised results are harder to evaluate",
         ],
+        lessonId: "supervised-unsupervised",
       },
       {
         slug: "regression-classification",
@@ -134,6 +135,7 @@ export const paths: LearningPath[] = [
           "Explain why random forests and gradient boosting usually beat a single tree",
           "Control tree depth to limit overfitting",
         ],
+        lessonId: "trees-ensembles",
       },
       {
         slug: "clustering-dimensionality-reduction",
@@ -144,6 +146,7 @@ export const paths: LearningPath[] = [
           "Use PCA to reduce and visualise high-dimensional data",
           "Explain why scaling features changes both methods’ results",
         ],
+        lessonId: "clustering-dimensionality-reduction",
       },
       {
         slug: "train-validation-test",
@@ -154,6 +157,7 @@ export const paths: LearningPath[] = [
           "Choose a random, grouped or time-based split",
           "Recognise the common forms of data leakage",
         ],
+        lessonId: "train-validation-test",
         seeAlso: { label: "Project Lab: splitting without leakage", href: "/project-lab/split-without-leakage" },
       },
       {
