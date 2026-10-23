@@ -7,6 +7,71 @@ import type { Experiment } from "../types/content";
  */
 export const experiments: Experiment[] = [
   {
+    id: "vectors-matrices",
+    title: "Vectors and matrices",
+    summary:
+      "Drag two vectors to see their sum and dot product, then set a 2 × 2 matrix and watch it stretch, rotate, flip or flatten the whole plane.",
+    interactions: ["Two vectors", "Matrix entries and presets", "Input vector x"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "math-foundations",
+    component: "linear-algebra-lab",
+    lesson: { pathSlug: "math-foundations", topicSlug: "linear-algebra-essentials" },
+  },
+  {
+    id: "shapes",
+    title: "Shapes and broadcasting",
+    summary:
+      "Check whether two array shapes can be added or multiplied, with NumPy’s exact result or error, and see a broadcasting bug that gives a wrong answer silently.",
+    interactions: ["Any two shapes", "+, @ or reshape", "Realistic examples", "The (4, 1) − (4,) bug"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "math-foundations",
+    component: "shapes-lab",
+    lesson: { pathSlug: "math-foundations", topicSlug: "vectors-matrices-tensors" },
+  },
+  {
+    id: "base-rates",
+    title: "Base rates and noisy scores",
+    summary:
+      "See why a 90%-sensitive test can be wrong most of the time it says yes, and how much a model’s measured accuracy wobbles with the size of the test set.",
+    interactions: ["Prevalence, sensitivity, specificity", "True accuracy and test size", "Repeat the simulation"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "math-foundations",
+    component: "probability-lab",
+    lesson: { pathSlug: "math-foundations", topicSlug: "probability-statistics" },
+  },
+  {
+    id: "slopes-chain-rule",
+    title: "Slopes and the chain rule",
+    summary:
+      "Compare a tangent with finite-difference estimates as the step shrinks, then follow the chain rule through one neuron and check it numerically.",
+    interactions: ["Four functions", "Point and step size", "Neuron weight, bias, input and target"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "math-foundations",
+    component: "derivatives-lab",
+    lesson: { pathSlug: "math-foundations", topicSlug: "derivatives-gradients" },
+  },
+  {
+    id: "gradient-descent",
+    title: "Gradient descent",
+    summary:
+      "Roll down three loss surfaces and find the learning rates that converge, crawl, bounce or diverge — and the starting points that end in the wrong valley.",
+    interactions: ["Learning rate", "Momentum", "Starting point", "Number of steps"],
+    renderer: "2d",
+    access: "free",
+    status: "live",
+    pathSlug: "math-foundations",
+    component: "optimization-lab",
+    lesson: { pathSlug: "math-foundations", topicSlug: "optimization-fundamentals" },
+  },
+  {
     id: "single-neuron",
     title: "A single neuron",
     summary:
@@ -142,17 +207,6 @@ export const experiments: Experiment[] = [
     summary:
       "Place points of two classes and train a logistic regression or small network in the browser to see how the boundary forms.",
     interactions: ["Add and move points", "Model capacity", "Training steps"],
-    renderer: "2d",
-    access: "free",
-    status: "planned",
-    pathSlug: "ml-foundations",
-  },
-  {
-    id: "gradient-descent",
-    title: "Gradient descent",
-    summary:
-      "Roll a parameter downhill on a loss surface and find the learning rates that converge, crawl or diverge.",
-    interactions: ["Learning rate", "Starting point", "Momentum"],
     renderer: "2d",
     access: "free",
     status: "planned",

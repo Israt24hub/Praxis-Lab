@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, type ReactNode } from "react";
+import { useEffect, useId, useRef, type ReactNode } from "react";
 
 import { cx } from "@/lib/cx";
 
@@ -142,10 +142,54 @@ export function Verdict({ tone, title, children }: { tone: "good" | "warn" | "ba
 }
 
 /** A chart in a scrollable, focusable frame with its legend underneath. */
-export function ChartFrame({ label, legend, children }: { label: string; legend?: ReactNode; children: ReactNode }) {
+/**
+ * A chart in a horizontally scrollable region (charts keep a minimum width so their labels stay
+ * readable on phones). `focus` is the part that matters, as a fraction of the chart's width (one
+ * value or a range); when the chart is wider than the screen, the region scrolls just enough to
+ * keep that part in view, on first render and whenever it moves.
+ */
+export function ChartFrame({
+  label,
+  legend,
+  focus,
+  children,
+}: {
+  label: string;
+  legend?: ReactNode;
+  focus?: number | readonly [number, number];
+  children: ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const clamp = (f: number) => Math.min(1, Math.max(0, f));
+  const lo = focus === undefined ? null : clamp(typeof focus === "number" ? focus : Math.min(focus[0], focus[1]));
+  const hi = focus === undefined ? null : clamp(typeof focus === "number" ? focus : Math.max(focus[0], focus[1]));
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || lo === null || hi === null) return;
+    const keepInView = () => {
+      const full = el.scrollWidth;
+      const view = el.clientWidth;
+      if (full <= view + 1) return;
+      const margin = Math.min(32, view * 0.1);
+      const a = lo * full;
+      const b = hi * full;
+      const left = el.scrollLeft;
+      let target = left;
+      if (b - a > view - 2 * margin) target = (a + b) / 2 - view / 2;
+      else if (a < left + margin) target = a - margin;
+      else if (b > left + view - margin) target = b + margin - view;
+      if (Math.abs(target - left) > 1) el.scrollLeft = Math.max(0, Math.min(full - view, target));
+    };
+    keepInView();
+    const observer = new ResizeObserver(keepInView);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [lo, hi]);
+
   return (
     <figure className="min-w-0 rounded-panel border border-line bg-sunken p-3 sm:p-4">
-      <div className="diagram-scroll" tabIndex={0} role="region" aria-label={label}>
+      <div ref={ref} className="diagram-scroll" tabIndex={0} role="region" aria-label={label}>
         {children}
       </div>
       {legend ? <figcaption className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-fg-muted">{legend}</figcaption> : null}

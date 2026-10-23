@@ -26,6 +26,7 @@ export const paths: LearningPath[] = [
           "Multiply a matrix by a vector and describe what it does geometrically",
           "Read notation such as `Wx + b` in ML papers",
         ],
+        lessonId: "linear-algebra-essentials",
       },
       {
         slug: "vectors-matrices-tensors",
@@ -36,6 +37,7 @@ export const paths: LearningPath[] = [
           "Explain broadcasting and when it silently does the wrong thing",
           "Reshape and index arrays in NumPy and PyTorch",
         ],
+        lessonId: "vectors-matrices-tensors",
       },
       {
         slug: "probability-statistics",
@@ -46,6 +48,7 @@ export const paths: LearningPath[] = [
           "Apply conditional probability and Bayes’ rule to small problems",
           "Explain why results vary between random seeds and how to report it",
         ],
+        lessonId: "probability-statistics",
       },
       {
         slug: "derivatives-gradients",
@@ -56,6 +59,7 @@ export const paths: LearningPath[] = [
           "Describe a gradient as the direction of steepest increase",
           "Apply the chain rule to a composition of functions",
         ],
+        lessonId: "derivatives-gradients",
       },
       {
         slug: "optimization-fundamentals",
@@ -66,6 +70,7 @@ export const paths: LearningPath[] = [
           "Explain how the learning rate causes slow progress or divergence",
           "Distinguish convex losses from the non-convex losses of neural networks",
         ],
+        lessonId: "optimization-fundamentals",
       },
     ],
     capstone: "Implement gradient descent from scratch in NumPy and use it to fit a line, checking every array shape along the way.",

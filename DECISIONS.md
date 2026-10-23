@@ -86,6 +86,17 @@ A running log of the choices made while building Praxis Lab, and why. Add to it 
 - **`pageMetadata()`** (`src/lib/metadata.ts`) builds title, description, canonical URL, Open Graph and Twitter fields together. Next.js does not copy a page’s title into Open Graph, and a page that sets its own Open Graph loses the inherited image, so the helper sets both explicitly.
 - **Not done yet:** Playwright and axe checks are still run by hand during development, not in CI.
 
+## Phase 3, round 3 — 2026-10-24: Path A finished
+
+- **Lessons added:** Linear algebra essentials; Vectors, matrices and tensors; Probability and statistics; Derivatives and gradients; Optimization fundamentals. Path A now has all five lessons, each with a live Playground experiment (15 in total). The planned gradient-descent experiment became the live one; the planned decision-boundary experiment moved to Path C, where it is taught.
+- **The shapes calculator follows NumPy 2 exactly**, including its error messages for `+`, `@` and `reshape`. `tests/fixtures/make_numpy_shapes.py` ran NumPy on 52 add/matmul cases and 10 reshape cases and saved the results to `numpy-shapes.json`; the tests compare the browser code with that file, so CI does not need Python. The silent `(4, 1) − (4,)` bug is shown with NumPy’s own numbers (MSE 2.125 instead of 0.125).
+- **Screening counts are expected values, not people.** The 1,000-person grid shows exact arithmetic, so at 0.1% prevalence it says 0.9 true positives rather than rounding to a whole person and changing the answer.
+- **The test-score simulation is seeded** (mulberry32), 1,000 repeats per setting; “Simulate again” moves to the next seed. The lesson quotes the numbers for the default seed; the standard-error formula they are compared with does not depend on the seed.
+- **The derivatives lab uses a 0.25 grid for x** on every function, so the points the lesson names (x = 2, x = ±1, x = 0) can all be reached. The chain-rule panel checks its gradient against a central finite difference, which is how gradient code is usually tested.
+- **Three loss surfaces, chosen to show typical behaviour:** a round bowl (curvature 2, stable for learning rates below 1), a narrow valley (curvatures 1 and 10, stable below 0.2) and a non-convex surface with two valleys (minima near w₁ = −1.047 and 0.946). A run counts as diverged once the loss passes 10⁶, and as having reached the minimum within 0.001 of the lowest loss. The lesson’s claim that no setting gets from the default start into the deeper valley is tested over every learning rate and momentum the lab offers, not just a few.
+- **Charts keep their focus on phones.** Lab charts keep a 540px minimum width so labels stay readable and scroll sideways on small screens. `ChartFrame` now takes an optional `focus` (a fraction of the chart width) and scrolls just enough to keep that part visible, on first render and whenever it moves. Path A labs use it; earlier labs are unchanged.
+- **Table header cells are never empty** (axe `empty-table-header`): the corner cell of a two-way table now names the rows (“Who”, “Actual”).
+
 ## Planned for later phases (not built)
 
 - **3D explorers:** add `@react-three/fiber` + `three`, and load each 3D experiment with `next/dynamic` (`ssr: false`) keyed by experiment `id`, only when `features.threeD` is on. The experiment registry's `renderer: "2d" | "3d"` field exists for this, so the 3D bundle never loads on pages that don't need it.

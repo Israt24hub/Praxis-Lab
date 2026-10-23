@@ -341,7 +341,7 @@ for name, model in [
       {
         type: "table",
         caption: "Confusion matrix",
-        head: ["", "Flagged", "Not flagged"],
+        head: ["Actual", "Flagged", "Not flagged"],
         rows: [
           ["Fraud", "TP = 15", "FN = 5"],
           ["Not fraud", "FP = 35", "TN = 945"],

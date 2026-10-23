@@ -3,6 +3,7 @@
  * were computed independently with NumPy and scikit-learn.
  */
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 import { noisyWave, SMALL_TRAIN } from "../src/content/datasets/noisy-wave.ts";
@@ -12,11 +13,16 @@ import { screeningScores } from "../src/content/datasets/screening-scores.ts";
 import { effort, shoppers } from "../src/content/datasets/shoppers.ts";
 import { studentJobs, studentJobsHeldOut } from "../src/content/datasets/student-jobs.ts";
 import { students, studentColumns } from "../src/content/datasets/week8-students.ts";
+import { centralDiff, forwardDiff, functions, neuronChain } from "../src/lib/calculus.ts";
 import { accuracy, fitLine, fitLogistic, fitLogistic2, logLoss, sigmoid } from "../src/lib/classification.ts";
 import { kmeans, kmeansBest, matchedAgreement, pca2, purity, standardize } from "../src/lib/kmeans.ts";
+import { angleBetween, columns, det, dot, matVec, norm, presets, rank } from "../src/lib/linalg.ts";
 import { averagePrecision, confusionAt, rates, rocAuc } from "../src/lib/metrics.ts";
+import { descend, nearestMinimum, surfaces } from "../src/lib/optimize.ts";
 import { fitPolynomial, meanSquaredError } from "../src/lib/polyfit.ts";
+import { accuracySE, screening, sd, simulateAccuracy, within } from "../src/lib/probability.ts";
 import { selectModel, splitChecks, splitVisits, visits } from "../src/lib/selection.ts";
+import { arange, broadcast, matmul, reshape, transpose } from "../src/lib/shapes.ts";
 import { accuracyOf, countLeaves, fitForest, fitTree, forestPredict, forestProba, tracePath, treePredict } from "../src/lib/tree.ts";
 
 const close = (a: number, b: number, tol: number, msg?: string) => assert.ok(Math.abs(a - b) <= tol, `${msg ?? ""} ${a} vs ${b}`);
@@ -315,5 +321,233 @@ describe("splits and test reuse (train/validation/test lesson)", () => {
       const r = selectModel(m + 1, 50, "test");
       assert.ok(Math.abs(r.winnerFresh - 0.5) < 0.03, `model set ${m + 1}`);
     }
+  });
+});
+
+/* ---------- Path A: Mathematics and Foundations ---------- */
+
+describe("vectors and matrices (linear algebra lesson)", () => {
+  it("reproduces the worked example", () => {
+    const u: [number, number] = [3, 1];
+    const v: [number, number] = [1, 2];
+    assert.equal(dot(u, v), 5);
+    close(norm(u), 3.162, 1e-3);
+    close(norm(v), 2.236, 1e-3);
+    close(angleBetween(u, v), 45, 1e-9);
+    close(dot(u, v) / norm(u), 1.581, 1e-3, "scalar projection");
+    assert.equal(dot(u, [-1, 3]), 0);
+    const W: [[number, number], [number, number]] = [
+      [1, 2],
+      [3, -1],
+    ];
+    assert.deepEqual(matVec(W, [2, 1]), [4, 5]);
+    assert.equal(det(W), -7);
+    assert.deepEqual(columns(W), [
+      [1, 3],
+      [2, -1],
+    ]);
+  });
+
+  it("gives each preset the determinant and rank in the lesson's table", () => {
+    const byId = Object.fromEntries(presets.map((p) => [p.id, p.W]));
+    const expected: Record<string, [number, number]> = { identity: [1, 2], scale: [1, 2], rotate: [1, 2], shear: [1, 2], flip: [-1, 2], collapse: [0, 1] };
+    for (const [id, [d, r]] of Object.entries(expected)) {
+      assert.equal(det(byId[id]), d, id);
+      assert.equal(rank(byId[id]), r, id);
+    }
+  });
+});
+
+describe("shapes (vectors, matrices and tensors lesson)", () => {
+  const fx = JSON.parse(readFileSync(new URL("./fixtures/numpy-shapes.json", import.meta.url), "utf8"));
+
+  it("matches NumPy's result shape or error message for every + and @ case", () => {
+    assert.ok(fx.cases.length >= 50);
+    for (const c of fx.cases) {
+      const r = c.op === "add" ? broadcast(c.a, c.b) : matmul(c.a, c.b);
+      if (c.error) {
+        assert.equal(r.ok, false, `${c.op} ${c.a} ${c.b} should fail`);
+        if (!r.ok) assert.equal(r.error, c.error, `${c.op} ${c.a} ${c.b}`);
+      } else {
+        assert.ok(r.ok, `${c.op} ${c.a} ${c.b} should work`);
+        if (r.ok) assert.deepEqual(r.shape, c.shape, `${c.op} ${c.a} ${c.b}`);
+      }
+    }
+  });
+
+  it("matches NumPy's reshape results", () => {
+    for (const c of fx.reshape) {
+      const r = reshape(c.a, c.target);
+      if (c.error) {
+        assert.equal(r.ok, false);
+        if (!r.ok && !c.target.includes(-1)) assert.equal(r.error, c.error);
+      } else {
+        assert.ok(r.ok);
+        if (r.ok) assert.deepEqual(r.shape, c.shape);
+      }
+    }
+  });
+
+  it("lays out values and transposes as NumPy does", () => {
+    assert.deepEqual(arange([3, 4]), fx.toy.reshape_3x4);
+    assert.deepEqual(arange([4, 3]), fx.toy.reshape_4x3);
+    assert.deepEqual(transpose(arange([3, 4]), [3, 4], [1, 0]).values, fx.toy.transpose_3x4);
+  });
+
+  it("reproduces the silent broadcasting bug", () => {
+    const { y_true, y_pred, diff_shape, mse_wrong, mse_right } = fx.silent_bug;
+    const r = broadcast([4, 1], [4]);
+    assert.ok(r.ok && r.shape.join() === diff_shape.join());
+    const wrong = y_pred.flatMap((p: number) => y_true.map((t: number) => (p - t) ** 2)).reduce((a: number, b: number) => a + b, 0) / 16;
+    const right = y_pred.map((p: number, i: number) => (p - y_true[i]) ** 2).reduce((a: number, b: number) => a + b, 0) / 4;
+    close(wrong, mse_wrong, 1e-12);
+    close(right, mse_right, 1e-12);
+    assert.equal(mse_wrong, 2.125);
+    assert.equal(mse_right, 0.125);
+  });
+});
+
+describe("probability (probability and statistics lesson)", () => {
+  it("gives the screening table and P(condition | positive)", () => {
+    const r = screening(0.02, 0.9, 0.95);
+    close(r.tp, 18, 1e-9);
+    close(r.fn, 2, 1e-9);
+    close(r.fp, 49, 1e-9);
+    close(r.tn, 931, 1e-9);
+    close(r.ppv, 0.2687, 1e-4);
+    close(r.npv, 0.9979, 1e-4);
+  });
+
+  it("gives the prevalence table and the high-specificity case", () => {
+    const expected: Array<[number, number]> = [
+      [0.001, 0.0177],
+      [0.01, 0.1538],
+      [0.02, 0.2687],
+      [0.1, 0.6667],
+      [0.3, 0.8852],
+    ];
+    for (const [prev, ppv] of expected) close(screening(prev, 0.9, 0.95).ppv, ppv, 1e-4, `prevalence ${prev}`);
+    close(screening(0.02, 0.9, 0.999).ppv, 0.948, 1e-3, "specificity 99.9%");
+  });
+
+  it("simulates test-set noise that matches the standard error", () => {
+    const s200 = simulateAccuracy(0.8, 200, 1000, 1);
+    close(sd(s200), 0.028, 1e-3, "sd n=200");
+    close(accuracySE(0.8, 200), 0.0283, 1e-4);
+    assert.equal(Math.min(...s200), 0.7);
+    assert.equal(Math.max(...s200), 0.885);
+    close(within(s200, 0.8, 2 * accuracySE(0.8, 200)), 0.963, 1e-9);
+    const s50 = simulateAccuracy(0.8, 50, 1000, 1);
+    assert.deepEqual([Math.min(...s50), Math.max(...s50)], [0.62, 0.94]);
+    const s1000 = simulateAccuracy(0.8, 1000, 1000, 1);
+    assert.deepEqual([Math.min(...s1000), Math.max(...s1000)], [0.762, 0.84]);
+    close(accuracySE(0.8, 50), 0.0566, 1e-4);
+    close(accuracySE(0.8, 1000), 0.0126, 1e-4);
+  });
+});
+
+describe("derivatives (derivatives and gradients lesson)", () => {
+  const cubic = functions.find((f) => f.id === "cubic")!;
+
+  it("reproduces the finite-difference table for x³ − 3x at x = 2", () => {
+    assert.equal(cubic.df(2), 9);
+    const rows: Array<[number, number, number]> = [
+      [1, 16, 10],
+      [0.1, 9.61, 9.01],
+      [0.01, 9.0601, 9.0001],
+      [0.001, 9.006001, 9.000001],
+    ];
+    for (const [h, fwd, ctr] of rows) {
+      close(forwardDiff(cubic.f, 2, h), fwd, 1e-6, `forward h=${h}`);
+      close(centralDiff(cubic.f, 2, h), ctr, 1e-6, `central h=${h}`);
+    }
+  });
+
+  it("has flat tangents at ±1 and the sigmoid's steepest slope 0.25 at 0", () => {
+    assert.equal(cubic.df(1), 0);
+    assert.equal(cubic.df(-1), 0);
+    close(functions.find((f) => f.id === "sigmoid")!.df(0), 0.25, 1e-12);
+  });
+
+  it("follows the chain rule through one neuron and agrees with a finite difference", () => {
+    const c = neuronChain(0.5, 0, 2, 1);
+    close(c.a, 0.7311, 1e-4);
+    close(c.L, 0.0723, 1e-4);
+    close(c.dL_da, -0.5379, 1e-4);
+    close(c.da_dz, 0.1966, 1e-4);
+    close(c.dL_dw, -0.211508, 1e-6);
+    close(c.dL_db, -0.1058, 1e-4);
+    const eps = 1e-6;
+    close((neuronChain(0.5 + eps, 0, 2, 1).L - neuronChain(0.5 - eps, 0, 2, 1).L) / (2 * eps), c.dL_dw, 1e-8);
+    close(neuronChain(2, 0, 3, 1).da_dz, 0.0025, 1e-4, "saturated");
+  });
+});
+
+describe("gradient descent (optimization lesson)", () => {
+  const s = Object.fromEntries(surfaces.map((x) => [x.id, x]));
+  const reached = (losses: number[], fmin = 0) => losses.findIndex((l) => l - fmin < 1e-3);
+
+  it("reproduces the narrow-valley table", () => {
+    const v = s.valley;
+    close(descend(v, v.start, 0.01, 100).losses.at(-1)!, 0.4187, 1e-4, "0.01");
+    assert.equal(reached(descend(v, v.start, 0.05, 100).losses), 79);
+    assert.equal(reached(descend(v, v.start, 0.1, 100).losses), 39);
+    assert.equal(reached(descend(v, v.start, 0.15, 100).losses), 25);
+    assert.equal(reached(descend(v, v.start, 0.19, 100).losses), 47);
+    const bounce = descend(v, v.start, 0.2, 100);
+    assert.equal(bounce.diverged, false);
+    close(bounce.losses.at(-1)!, 20, 1e-6, "0.2 bounces");
+    const div = descend(v, v.start, 0.21, 100);
+    assert.equal(div.diverged, true);
+    assert.equal(div.path.length - 1, 57);
+    assert.equal(reached(descend(v, v.start, 0.1, 100, 0.5).losses), 14);
+  });
+
+  it("gives the challenge's step counts", () => {
+    const v = s.valley;
+    assert.equal(reached(descend(v, v.start, 0.17, 200).losses), 22);
+    assert.equal(reached(descend(v, v.start, 2 / 11, 200).losses), 26);
+  });
+
+  it("on the round bowl: one exact step at 0.5, bouncing at 1, divergence above", () => {
+    const b = s.bowl;
+    assert.equal(descend(b, b.start, 0.5, 100).losses[1], 0);
+    const one = descend(b, b.start, 1, 100);
+    assert.equal(one.diverged, false);
+    close(one.losses.at(-1)!, 10.25, 1e-9);
+    assert.equal(descend(b, b.start, 1.05, 100).diverged, true);
+  });
+
+  it("ends in different valleys from different starts", () => {
+    const t = s.twominima;
+    const fromRight = descend(t, [0.4, 1.5], 0.05, 200);
+    const nr = nearestMinimum(t, fromRight.path.at(-1)!);
+    assert.equal(nr.index, 1);
+    close(t.f(nr.minimum), 0.889, 1e-3);
+    const fromLeft = descend(t, [0.1, 1.5], 0.05, 200);
+    const nl = nearestMinimum(t, fromLeft.path.at(-1)!);
+    assert.equal(nl.index, 0);
+    close(t.f(nl.minimum), 0.09, 1e-3);
+    close(t.minima[0][0], -1.0467, 1e-4);
+    close(t.minima[1][0], 0.9456, 1e-4);
+  });
+
+  it("never reaches the deep valley from (0.4, 1.5) with the experiment's settings", () => {
+    const t = s.twominima;
+    for (const lr of [0.01, 0.02, 0.05, 0.1, 0.15, 0.19, 0.2, 0.21, 0.3, 0.5, 0.9, 1, 1.05])
+      for (const m of [0, 0.5, 0.9]) {
+        const r = descend(t, [0.4, 1.5], lr, 200, m);
+        if (!r.diverged) assert.notEqual(nearestMinimum(t, r.path.at(-1)!).distance < 1e-3 && nearestMinimum(t, r.path.at(-1)!).index === 0, true, `lr ${lr} m ${m}`);
+      }
+  });
+
+  it("follows the hand calculation on (w − 3)²", () => {
+    let w = 0;
+    const ws = [];
+    for (let t = 0; t < 5; t++) {
+      w = w - 0.1 * 2 * (w - 3);
+      ws.push(w);
+    }
+    ws.forEach((x, i) => close(x, [0.6, 1.08, 1.464, 1.7712, 2.01696][i], 1e-9));
   });
 });

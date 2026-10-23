@@ -4,10 +4,15 @@ import { NeuronLab } from "@/components/playground/neuron-lab";
 
 import { ClusteringLab } from "./clustering-lab";
 import { DatasetBuilderLab } from "./dataset-builder-lab";
+import { DerivativesLab } from "./derivatives-lab";
 import { LearningFromDataLab } from "./learning-from-data-lab";
+import { LinearAlgebraLab } from "./linear-algebra-lab";
 import { LearningTypesLab } from "./learning-types-lab";
+import { OptimizationLab } from "./optimization-lab";
 import { OverfittingLab } from "./overfitting-lab";
 import { PassFailLab } from "./pass-fail-lab";
+import { ProbabilityLab } from "./probability-lab";
+import { ShapesLab } from "./shapes-lab";
 import { SplitsLab } from "./splits-lab";
 import { ThresholdLab } from "./threshold-lab";
 import { TreeLab } from "./tree-lab";
@@ -18,6 +23,11 @@ import { TreeLab } from "./tree-lab";
  * features.threeD is enabled (see DECISIONS.md).
  */
 export const interactiveRegistry: Record<string, ComponentType> = {
+  "linear-algebra-lab": LinearAlgebraLab,
+  "shapes-lab": ShapesLab,
+  "probability-lab": ProbabilityLab,
+  "derivatives-lab": DerivativesLab,
+  "optimization-lab": OptimizationLab,
   "learning-from-data-lab": LearningFromDataLab,
   "dataset-builder-lab": DatasetBuilderLab,
   "learning-types-lab": LearningTypesLab,
