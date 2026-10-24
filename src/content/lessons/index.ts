@@ -1,11 +1,16 @@
 import type { Lesson } from "../../types/content";
 
 import { backpropagation } from "./backpropagation.ts";
+import { classificationTransferLearning } from "./classification-transfer-learning.ts";
 import { clusteringDimensionalityReduction } from "./clustering-dimensionality-reduction.ts";
+import { convolutionFeatureMaps } from "./convolution-feature-maps.ts";
 import { derivativesGradients } from "./derivatives-gradients.ts";
+import { detectionSegmentation } from "./detection-segmentation.ts";
 import { featuresLabelsDatasets } from "./features-labels-datasets.ts";
 import { forwardPropagation } from "./forward-propagation.ts";
 import { gradientDescentOptimizers } from "./gradient-descent-optimizers.ts";
+import { imagePreprocessingAugmentation } from "./image-preprocessing-augmentation.ts";
+import { imageRepresentation } from "./image-representation.ts";
 import { layersActivations } from "./layers-activations.ts";
 import { learningFromData } from "./learning-from-data.ts";
 import { linearAlgebraEssentials } from "./linear-algebra-essentials.ts";
@@ -14,6 +19,7 @@ import { metricsCrossValidation } from "./metrics-cross-validation.ts";
 import { optimizationFundamentals } from "./optimization-fundamentals.ts";
 import { overfittingGeneralization } from "./overfitting-generalization.ts";
 import { perceptronsNeurons } from "./perceptrons-neurons.ts";
+import { poolingCnnArchitectures } from "./pooling-cnn-architectures.ts";
 import { probabilityStatistics } from "./probability-statistics.ts";
 import { regressionClassification } from "./regression-classification.ts";
 import { regularizationDiagnostics } from "./regularization-diagnostics.ts";
@@ -21,6 +27,7 @@ import { supervisedUnsupervised } from "./supervised-unsupervised.ts";
 import { trainValidationTest } from "./train-validation-test.ts";
 import { treesEnsembles } from "./trees-ensembles.ts";
 import { vectorsMatricesTensors } from "./vectors-matrices-tensors.ts";
+import { visionEvaluationInterpretation } from "./vision-evaluation-interpretation.ts";
 
 /*
  * Complete lessons, keyed by id. To publish a lesson: add its file here and set
@@ -48,4 +55,11 @@ export const lessons: Record<string, Lesson> = {
   [backpropagation.id]: backpropagation,
   [gradientDescentOptimizers.id]: gradientDescentOptimizers,
   [regularizationDiagnostics.id]: regularizationDiagnostics,
+  [imageRepresentation.id]: imageRepresentation,
+  [imagePreprocessingAugmentation.id]: imagePreprocessingAugmentation,
+  [convolutionFeatureMaps.id]: convolutionFeatureMaps,
+  [poolingCnnArchitectures.id]: poolingCnnArchitectures,
+  [classificationTransferLearning.id]: classificationTransferLearning,
+  [detectionSegmentation.id]: detectionSegmentation,
+  [visionEvaluationInterpretation.id]: visionEvaluationInterpretation,
 };

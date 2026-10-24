@@ -356,7 +356,7 @@ export function LessonPage({ lesson, path, topic, topicTitles }: Props) {
             {lesson.references.map((r) => (
               <li key={r.title} className="flex gap-3">
                 <BookOpen aria-hidden className="mt-1 size-4 shrink-0 text-fg-faint" />
-                <div>
+                <div className="min-w-0 [overflow-wrap:anywhere]">
                   {r.url ? (
                     <a href={r.url} className="font-semibold text-link underline underline-offset-4" rel="noreferrer" target="_blank">
                       {r.title}

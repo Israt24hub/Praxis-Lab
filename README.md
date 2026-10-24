@@ -4,7 +4,7 @@ An interactive platform for learning AI and machine learning: understand what ha
 
 Live site: <https://praxis-lab-seven.vercel.app/>
 
-**Status: Phase 3.** Eight-path curriculum (60 topics, every one with its own page), 21 complete lessons with real in-browser experiments (Path A, Mathematics and Foundations; Path B, Machine Learning; and Path C, Deep Learning, are finished), all 15 Project Lab steps, the Research & Papers guide, and four colour themes. No accounts, payments, backend, 3D or external AI APIs yet. Anything not built is labelled *Planned* on the site.
+**Status: Phase 3.** Eight-path curriculum (60 topics, every one with its own page), 28 complete lessons with real in-browser experiments (Path A, Mathematics and Foundations; Path B, Machine Learning; Path C, Deep Learning; and Path D, Computer Vision, are finished), all 15 Project Lab steps, the Research & Papers guide, and four colour themes. No accounts, payments, backend, 3D or external AI APIs yet. Anything not built is labelled *Planned* on the site.
 
 ## Run it
 
@@ -32,19 +32,20 @@ npm run dev        # http://localhost:3000
 | `/learn` | The curriculum: search and filter all 60 topics, complete lessons marked |
 | `/learn/[path]` | Path overview with every topic, prerequisites and what it unlocks |
 | `/learn/[path]/[topic]` | A complete lesson, or a clearly marked planned-lesson page |
-| `/playground` | The 21 live experiments, each also embedded in its lesson, and the planned catalogue |
+| `/playground` | The 28 live experiments, each also embedded in its lesson, and the planned catalogue |
 | `/project-lab`, `/project-lab/[step]` | The 15-step workflow; every step has a page, step 6 has the full leakage guide |
 | `/research` | Lifecycle, writing roadmap, findings vs hypotheses vs limitations, writing examples, paper outline, reproducibility checklist |
 | `/pricing` | Pricing preview only |
 | `/sitemap.xml`, `/robots.txt`, `/opengraph-image` | Generated from the content: every page in the sitemap, and one link-preview image for the whole site |
 
-**Complete lessons (21 of 60):**
+**Complete lessons (28 of 60):**
 
 - Path A, Mathematics and Foundations (all 5 topics): [Linear algebra essentials](https://praxis-lab-seven.vercel.app/learn/math-foundations/linear-algebra-essentials), [Vectors, matrices and tensors](https://praxis-lab-seven.vercel.app/learn/math-foundations/vectors-matrices-tensors), [Probability and statistics](https://praxis-lab-seven.vercel.app/learn/math-foundations/probability-statistics), [Derivatives and gradients](https://praxis-lab-seven.vercel.app/learn/math-foundations/derivatives-gradients), [Optimization fundamentals](https://praxis-lab-seven.vercel.app/learn/math-foundations/optimization-fundamentals)
 - Path B, Machine Learning (all 9 topics): [What does learning from data mean?](https://praxis-lab-seven.vercel.app/learn/ml-foundations/learning-from-data) (the reference lesson), [Features, labels, datasets and predictions](https://praxis-lab-seven.vercel.app/learn/ml-foundations/features-labels-datasets), [Supervised and unsupervised learning](https://praxis-lab-seven.vercel.app/learn/ml-foundations/supervised-unsupervised), [Regression and classification](https://praxis-lab-seven.vercel.app/learn/ml-foundations/regression-classification), [Decision trees and ensemble methods](https://praxis-lab-seven.vercel.app/learn/ml-foundations/trees-ensembles), [Clustering and dimensionality reduction](https://praxis-lab-seven.vercel.app/learn/ml-foundations/clustering-dimensionality-reduction), [Training, validation and testing](https://praxis-lab-seven.vercel.app/learn/ml-foundations/train-validation-test), [Overfitting, underfitting and generalization](https://praxis-lab-seven.vercel.app/learn/ml-foundations/overfitting-generalization), [Evaluation metrics and cross-validation](https://praxis-lab-seven.vercel.app/learn/ml-foundations/metrics-cross-validation)
 - Path C, Deep Learning (all 7 topics): [Perceptrons and single neurons](https://praxis-lab-seven.vercel.app/learn/deep-learning/perceptrons-neurons), [Neural network layers and activations](https://praxis-lab-seven.vercel.app/learn/deep-learning/layers-activations), [Forward propagation](https://praxis-lab-seven.vercel.app/learn/deep-learning/forward-propagation), [Loss functions](https://praxis-lab-seven.vercel.app/learn/deep-learning/loss-functions), [Backpropagation](https://praxis-lab-seven.vercel.app/learn/deep-learning/backpropagation), [Gradient descent and optimizers](https://praxis-lab-seven.vercel.app/learn/deep-learning/gradient-descent-optimizers), [Regularization and training diagnostics](https://praxis-lab-seven.vercel.app/learn/deep-learning/regularization-diagnostics)
+- Path D, Computer Vision (all 7 topics): [Image representation and tensors](https://praxis-lab-seven.vercel.app/learn/computer-vision/image-representation), [Image preprocessing and augmentation](https://praxis-lab-seven.vercel.app/learn/computer-vision/image-preprocessing-augmentation), [Convolution and feature maps](https://praxis-lab-seven.vercel.app/learn/computer-vision/convolution-feature-maps), [Pooling and CNN architectures](https://praxis-lab-seven.vercel.app/learn/computer-vision/pooling-cnn-architectures), [Image classification and transfer learning](https://praxis-lab-seven.vercel.app/learn/computer-vision/classification-transfer-learning), [Object detection and segmentation](https://praxis-lab-seven.vercel.app/learn/computer-vision/detection-segmentation), [Model evaluation and interpretation](https://praxis-lab-seven.vercel.app/learn/computer-vision/vision-evaluation-interpretation)
 
-Each has an experiment that computes in the browser; the numbers each lesson quotes are checked by `tests/lab-math.test.ts`, `tests/deep-learning.test.ts` and `tests/linear-regression.test.ts`. The Deep Learning labs’ network maths (activations, backward passes, losses, SGD, momentum, Adam and AdamW) is also checked against reference values recorded from PyTorch (`tests/fixtures/make_torch_fixtures.py`).
+Each has an experiment that computes in the browser; the numbers each lesson quotes are checked by `tests/lab-math.test.ts`, `tests/deep-learning.test.ts`, `tests/vision.test.ts` and `tests/linear-regression.test.ts`. The Deep Learning labs’ network maths (activations, backward passes, losses, SGD, momentum, Adam and AdamW) is also checked against reference values recorded from PyTorch (`tests/fixtures/make_torch_fixtures.py`). The Computer Vision labs’ convolution, pooling, CNN training, Grad-CAM, image transforms and preprocessing are checked against PyTorch and torchvision, and their IoU, NMS and average precision against torchvision.ops and pycocotools (`tests/fixtures/make_digits.py`, `tests/fixtures/make_vision_extra.py`). Those labs use the UCI handwritten digits (E. Alpaydin & C. Kaynak, CC BY 4.0), served from `public/datasets/` and loaded on demand.
 
 **Themes:** the Theme button in the header switches between Light (default), Dark, System (follows your device) and Chalkboard. The choice is saved in your browser.
 
@@ -68,7 +69,10 @@ src/
     guides/               Long-form step guides
     research.ts, …
   lib/content.ts          Async accessors; the only way pages read content
-  lib/                    Lab math shared by the browser and the tests: nn (layers, backward
+  lib/                    Lab math shared by the browser and the tests: vision (convolution,
+                          pooling, a small CNN with training, Grad-CAM, occlusion, transforms),
+                          images, digits (dataset loader), augmentation, transfer, receptive,
+                          detection (IoU, NMS, COCO-style AP, masks), nn (layers, backward
                           pass, losses and PyTorch's optimizer rules), boundaries, forward-example,
                           losses, backprop, optimizers, regularization, contour, linalg, shapes
                           (NumPy broadcasting, matmul and reshape rules), probability, calculus,
@@ -92,7 +96,7 @@ Design and architecture decisions are recorded in [DECISIONS.md](./DECISIONS.md)
 
 ## Known limitations
 
-- 21 of 60 lessons are complete; the other 39 topics have planned-lesson pages.
+- 28 of 60 lessons are complete; the other 32 topics have planned-lesson pages.
 - Step 6 is the only Project Lab step with a long-form guide; the other 14 have the core template.
 - Quiz answers and checklist ticks are not saved (no accounts).
 - Estimated lesson times are planning guides, not measurements.

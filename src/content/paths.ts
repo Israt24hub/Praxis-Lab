@@ -304,6 +304,7 @@ export const paths: LearningPath[] = [
           "Convert between channel-first and channel-last layouts",
           "Normalise images with the statistics a model expects",
         ],
+        lessonId: "image-representation",
       },
       {
         slug: "image-preprocessing-augmentation",
@@ -314,6 +315,7 @@ export const paths: LearningPath[] = [
           "Choose augmentations that preserve the label",
           "Avoid augmenting validation and test images",
         ],
+        lessonId: "image-preprocessing-augmentation",
       },
       {
         slug: "convolution-feature-maps",
@@ -324,6 +326,7 @@ export const paths: LearningPath[] = [
           "Predict output size from kernel, stride and padding",
           "Explain why convolution shares weights across positions",
         ],
+        lessonId: "convolution-feature-maps",
       },
       {
         slug: "pooling-cnn-architectures",
@@ -334,6 +337,7 @@ export const paths: LearningPath[] = [
           "Describe how receptive fields grow with depth",
           "Explain the residual connection in ResNet",
         ],
+        lessonId: "pooling-cnn-architectures",
       },
       {
         slug: "classification-transfer-learning",
@@ -344,6 +348,7 @@ export const paths: LearningPath[] = [
           "Decide which layers to freeze",
           "Compare against a training-from-scratch baseline",
         ],
+        lessonId: "classification-transfer-learning",
       },
       {
         slug: "detection-segmentation",
@@ -354,6 +359,7 @@ export const paths: LearningPath[] = [
           "Explain intersection over union (IoU)",
           "Read mean average precision (mAP) results",
         ],
+        lessonId: "detection-segmentation",
       },
       {
         slug: "vision-evaluation-interpretation",
@@ -364,6 +370,7 @@ export const paths: LearningPath[] = [
           "Produce and interpret a Grad-CAM heatmap",
           "Explain why saliency maps are not proof of reasoning",
         ],
+        lessonId: "vision-evaluation-interpretation",
       },
     ],
     capstone:
