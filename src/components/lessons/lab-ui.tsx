@@ -141,7 +141,6 @@ export function Verdict({ tone, title, children }: { tone: "good" | "warn" | "ba
   );
 }
 
-/** A chart in a scrollable, focusable frame with its legend underneath. */
 /**
  * A chart in a horizontally scrollable region (charts keep a minimum width so their labels stay
  * readable on phones). `focus` is the part that matters, as a fraction of the chart's width (one

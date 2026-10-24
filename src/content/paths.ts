@@ -223,6 +223,7 @@ export const paths: LearningPath[] = [
           "Compare ReLU, sigmoid, tanh and GELU",
           "Explain why a stack of linear layers is still linear",
         ],
+        lessonId: "layers-activations",
       },
       {
         slug: "forward-propagation",
@@ -233,6 +234,7 @@ export const paths: LearningPath[] = [
           "Track tensor shapes through each layer",
           "Implement the same forward pass in NumPy and PyTorch",
         ],
+        lessonId: "forward-propagation",
       },
       {
         slug: "loss-functions",
@@ -243,6 +245,7 @@ export const paths: LearningPath[] = [
           "Compute MSE and cross-entropy by hand",
           "Explain why the loss you train on is not always the metric you report",
         ],
+        lessonId: "loss-functions",
       },
       {
         slug: "backpropagation",
@@ -253,6 +256,7 @@ export const paths: LearningPath[] = [
           "Check hand-computed gradients against PyTorch autograd",
           "Explain vanishing gradients",
         ],
+        lessonId: "backpropagation",
       },
       {
         slug: "gradient-descent-optimizers",
@@ -263,6 +267,7 @@ export const paths: LearningPath[] = [
           "Explain what momentum and Adam change",
           "Recognise a learning rate that is too high or too low from the loss curve",
         ],
+        lessonId: "gradient-descent-optimizers",
       },
       {
         slug: "regularization-diagnostics",
@@ -273,6 +278,7 @@ export const paths: LearningPath[] = [
           "Read training and validation curves to diagnose problems",
           "Overfit a single batch on purpose to find bugs",
         ],
+        lessonId: "regularization-diagnostics",
       },
     ],
     capstone: "Train a multilayer perceptron and a small CNN on Fashion-MNIST and compare them under the same evaluation protocol.",

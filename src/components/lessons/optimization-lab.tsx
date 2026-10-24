@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { contourBands } from "@/lib/contour";
 import { descend, nearestMinimum, surfaces, type P } from "@/lib/optimize";
 
 import { ChartFrame, LegendItem, Segmented, Stats, StepSlider, Verdict, ticks } from "./lab-ui";
@@ -55,22 +56,7 @@ export function OptimizationLab() {
   const pad = 26;
   const sx = (v: number) => pad + ((v - w1[0]) / (w1[1] - w1[0])) * (W - 2 * pad);
   const sy = (v: number) => W - pad - ((v - w2[0]) / (w2[1] - w2[0])) * (W - 2 * pad);
-  const bands = useMemo(() => {
-    const cw = (w1[1] - w1[0]) / GRID;
-    const ch = (w2[1] - w2[0]) / GRID;
-    const vals: number[] = [];
-    for (let j = 0; j < GRID; j++) for (let i = 0; i < GRID; i++) vals.push(Math.log(surface.f([w1[0] + (i + 0.5) * cw, w2[0] + (j + 0.5) * ch]) - fmin + 1e-3));
-    const lo = Math.min(...vals);
-    const hi = Math.max(...vals);
-    const paths = Array.from({ length: LEVELS }, () => "");
-    const px = (W - 2 * pad) / GRID;
-    for (let j = 0; j < GRID; j++)
-      for (let i = 0; i < GRID; i++) {
-        const level = Math.min(LEVELS - 1, Math.floor(((vals[j * GRID + i] - lo) / (hi - lo)) * LEVELS));
-        paths[level] += `M${(pad + i * px).toFixed(2)} ${(W - pad - (j + 1) * px).toFixed(2)}h${px.toFixed(2)}v${px.toFixed(2)}h${(-px).toFixed(2)}Z`;
-      }
-    return paths;
-  }, [surface, fmin, w1, w2]);
+  const bands = useMemo(() => contourBands(surface.f, fmin, w1, w2, W, pad, GRID, LEVELS), [surface, fmin, w1, w2]);
 
   const shown = run.path;
   const clipW1 = (v: number) => Math.max(w1[0], Math.min(w1[1], v));
